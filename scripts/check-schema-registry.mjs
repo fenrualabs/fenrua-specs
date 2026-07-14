@@ -19,7 +19,9 @@ const expectedVersions = [
   "fenrua.key-rotation.v1",
   "fenrua.audit-event.v1",
   "fenrua.compatibility-profile.v1",
-  "fenrua.verification-vector.v1"
+  "fenrua.compatibility-profile.v2",
+  "fenrua.verification-vector.v1",
+  "fenrua.verification-vector.v2"
 ];
 
 const context = createSchemaValidator();
@@ -32,7 +34,7 @@ assert.equal(registry.maturity, "R1-specification");
 assert.equal(registry.releaseState, "no-trust-gate-or-sdk-release");
 assert.equal(registry.schemaDialect, "https://json-schema.org/draft/2020-12/schema");
 assert.equal(registry.immutability.mutationAllowed, false);
-assert.equal(registry.schemas.length, expectedVersions.length, "Registry must contain exactly 16 top-level entries");
+assert.equal(registry.schemas.length, expectedVersions.length, "Registry must contain exactly 18 top-level entries");
 assert.deepEqual([...schemas.keys()].sort(), [...expectedVersions].sort(), "Registry schema versions differ from the v0.2 set");
 assert.equal(new Set(registry.schemas.map((entry) => entry.$id)).size, expectedVersions.length, "Schema $ids must be unique");
 assert.equal(new Set(registry.schemas.map((entry) => entry.path)).size, expectedVersions.length, "Schema paths must be unique");
@@ -59,6 +61,10 @@ const authorityPolicyV1 = schemas.get("fenrua.authority-policy.v1").schema;
 const authorityPolicyV2 = schemas.get("fenrua.authority-policy.v2").schema;
 const evidenceBundleV1 = schemas.get("fenrua.evidence-bundle.v1").schema;
 const evidenceBundleV2 = schemas.get("fenrua.evidence-bundle.v2").schema;
+const compatibilityProfileV1 = schemas.get("fenrua.compatibility-profile.v1").schema;
+const compatibilityProfileV2 = schemas.get("fenrua.compatibility-profile.v2").schema;
+const verificationVectorV1 = schemas.get("fenrua.verification-vector.v1").schema;
+const verificationVectorV2 = schemas.get("fenrua.verification-vector.v2").schema;
 const v1Rule = authorityPolicyV1.$defs.Rule;
 const v2Rule = authorityPolicyV2.$defs.Rule;
 assert.equal(Object.hasOwn(v1Rule.properties, "contextSelector"), false, "Authority Policy v1 must remain selector-free");
@@ -99,9 +105,79 @@ assert.deepEqual(
   "Evidence Bundle v2 must permit only its bounded provenance schema set"
 );
 
-const vectorEntry = registry.schemas.find((entry) => entry.schemaVersion === "fenrua.verification-vector.v1");
-assert.equal(vectorEntry.role, "test-only-non-output", "Verification vectors must remain test-only");
-assert.equal(registry.schemas.filter((entry) => entry.role === "test-only-non-output").length, 1, "Only verification vectors may be test-only");
+const v1ProfileBindingVersions = compatibilityProfileV1.$defs.SchemaBinding.oneOf.map(
+  (binding) => binding.properties.schemaVersion.const
+);
+const v2ProfileBindingVersions = compatibilityProfileV2.$defs.SchemaBinding.oneOf.map(
+  (binding) => binding.properties.schemaVersion.const
+);
+assert.equal(v1ProfileBindingVersions.includes("fenrua.authority-policy.v2"), false, "Compatibility Profile v1 must remain closed to Authority Policy v2");
+assert.equal(v1ProfileBindingVersions.includes("fenrua.evidence-bundle.v2"), false, "Compatibility Profile v1 must remain closed to Evidence Bundle v2");
+assert.equal(v1ProfileBindingVersions.includes("fenrua.compatibility-profile.v2"), false, "Compatibility Profile v1 must remain closed to Compatibility Profile v2");
+assert.equal(compatibilityProfileV2.properties.schemaBindings.minItems, 16, "Compatibility Profile v2 must require its full local tuple");
+assert.equal(compatibilityProfileV2.properties.schemaBindings.maxItems, 18, "Compatibility Profile v2 may bind only its two test-only vector identities in addition");
+assert.equal(compatibilityProfileV2.properties.schemaBindings.uniqueItems, true, "Compatibility Profile v2 bindings must remain unique");
+assert.deepEqual(
+  [...v2ProfileBindingVersions].sort(),
+  [
+    "fenrua.entity-manifest.v1",
+    "fenrua.authority-policy.v1",
+    "fenrua.authority-policy.v2",
+    "fenrua.tool-call-request.v1",
+    "fenrua.approval.v1",
+    "fenrua.revocation-set.v1",
+    "fenrua.decision.v1",
+    "fenrua.evidence-bundle.v1",
+    "fenrua.evidence-bundle.v2",
+    "fenrua.receipt.v1",
+    "fenrua.verification-result.v1",
+    "fenrua.key-metadata.v1",
+    "fenrua.key-rotation.v1",
+    "fenrua.audit-event.v1",
+    "fenrua.compatibility-profile.v1",
+    "fenrua.compatibility-profile.v2",
+    "fenrua.verification-vector.v1",
+    "fenrua.verification-vector.v2"
+  ].sort(),
+  "Compatibility Profile v2 must bind only exact registered identities"
+);
+assert.deepEqual(
+  compatibilityProfileV2.allOf.slice(0, 16).map(
+    (rule) => rule.properties.schemaBindings.contains.properties.schemaVersion.const
+  ).sort(),
+  [
+    "fenrua.entity-manifest.v1",
+    "fenrua.authority-policy.v1",
+    "fenrua.authority-policy.v2",
+    "fenrua.tool-call-request.v1",
+    "fenrua.approval.v1",
+    "fenrua.revocation-set.v1",
+    "fenrua.decision.v1",
+    "fenrua.evidence-bundle.v1",
+    "fenrua.evidence-bundle.v2",
+    "fenrua.receipt.v1",
+    "fenrua.verification-result.v1",
+    "fenrua.key-metadata.v1",
+    "fenrua.key-rotation.v1",
+    "fenrua.audit-event.v1",
+    "fenrua.compatibility-profile.v1",
+    "fenrua.compatibility-profile.v2"
+  ].sort(),
+  "Compatibility Profile v2 must require every non-vector protocol binding"
+);
+assert.equal(verificationVectorV1.$defs.VectorDocument.properties.schemaId.$ref, "urn:fenrua:schema:shared-definitions-v1#/$defs/SchemaId", "Verification Vector v1 must retain frozen schema IDs");
+assert.equal(verificationVectorV2.$defs.VectorDocument.properties.schemaId.$ref, "#/$defs/SchemaId", "Verification Vector v2 must own its additive schema vocabulary");
+assert.equal(verificationVectorV2.$defs.SchemaId.enum.includes("urn:fenrua:schema:authority-policy-v2"), true, "Verification Vector v2 must bind Authority Policy v2");
+assert.equal(verificationVectorV2.$defs.SchemaId.enum.includes("urn:fenrua:schema:evidence-bundle-v2"), true, "Verification Vector v2 must bind Evidence Bundle v2");
+assert.equal(verificationVectorV2.$defs.SchemaId.enum.includes("urn:fenrua:schema:compatibility-profile-v2"), true, "Verification Vector v2 must bind Compatibility Profile v2");
+assert.equal(verificationVectorV2.$defs.SchemaId.enum.includes("urn:fenrua:schema:verification-vector-v2"), false, "Verification vectors must not refer to themselves as documents");
+
+const vectorEntries = registry.schemas.filter((entry) => entry.role === "test-only-non-output");
+assert.deepEqual(
+  vectorEntries.map((entry) => entry.schemaVersion).sort(),
+  ["fenrua.verification-vector.v1", "fenrua.verification-vector.v2"],
+  "Only verification vectors may be test-only"
+);
 
 function hasForbiddenKey(value, forbidden) {
   if (Array.isArray(value)) {
@@ -113,7 +189,7 @@ function hasForbiddenKey(value, forbidden) {
   return false;
 }
 
-for (const schemaVersion of ["fenrua.decision.v1", "fenrua.verification-result.v1", "fenrua.verification-vector.v1"]) {
+for (const schemaVersion of ["fenrua.decision.v1", "fenrua.verification-result.v1", "fenrua.verification-vector.v1", "fenrua.verification-vector.v2"]) {
   const { schema } = schemas.get(schemaVersion);
   assert.equal(hasForbiddenKey(schema, "continueExecution"), false, `${schemaVersion} must not carry execution instructions`);
 }

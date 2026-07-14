@@ -31,11 +31,14 @@ bind the v2 Authority Policy or Evidence Bundle. An Evidence Bundle v1 also
 cannot reference an Authority Policy v2 because its document-reference
 allowlist is frozen. The v2 Evidence Bundle carries a separate bounded
 reference vocabulary so it can preserve that provenance without changing v1.
-A compatibility profile that declares this local v2 family requires its own
-new exact schema identity and conformance vectors; it must not append v2
-bindings to the v1 profile. Until then, an integrator can validate and dispatch
-the v2 documents through `schemas/v0.2/registry.json`, but cannot claim they
-are covered by the v1 compatibility profile.
+
+`fenrua.compatibility-profile.v2` is a separate, closed 16-binding local v2
+tuple. It retains the required v1 identities and adds exact bindings for
+Authority Policy v2, Evidence Bundle v2, and its own profile identity.
+`fenrua.verification-vector.v2` is separately versioned test metadata that can
+bind those v2 identities. Neither record extends its v1 namesake, makes the
+Trust Gate accept a compatibility-profile document, or creates a released
+compatibility, SDK, CLI, API, or support commitment.
 
 ## Deferred commitments
 

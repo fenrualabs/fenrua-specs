@@ -63,27 +63,81 @@ assert.equal(
   "Evidence Bundle v2 must be able to prove Authority Policy v2 provenance"
 );
 
-const compatibilityProfile = readStrictJson(resolve(validRoot, "compatibility-profile.json"));
-const compatibilityProfileMissingBinding = structuredClone(compatibilityProfile);
-compatibilityProfileMissingBinding.schemaBindings.pop();
+const compatibilityProfileV1 = readStrictJson(resolve(validRoot, "compatibility-profile.json"));
+const compatibilityProfileV2 = readStrictJson(resolve(validRoot, "compatibility-profile-v2.json"));
+const compatibilityProfileV1MissingBinding = structuredClone(compatibilityProfileV1);
+compatibilityProfileV1MissingBinding.schemaBindings.pop();
 assert.equal(
-  validateByVersion(context, compatibilityProfileMissingBinding.schemaVersion, compatibilityProfileMissingBinding).valid,
+  validateByVersion(context, compatibilityProfileV1MissingBinding.schemaVersion, compatibilityProfileV1MissingBinding).valid,
   false,
-  "A compatibility profile must bind every required protocol schema"
+  "Compatibility Profile v1 must bind every required protocol schema"
 );
-const compatibilityProfileMismatchedBinding = structuredClone(compatibilityProfile);
-compatibilityProfileMismatchedBinding.schemaBindings[0].schemaId = "urn:fenrua:schema:decision-v1";
+const compatibilityProfileV1MismatchedBinding = structuredClone(compatibilityProfileV1);
+compatibilityProfileV1MismatchedBinding.schemaBindings[0].schemaId = "urn:fenrua:schema:decision-v1";
 assert.equal(
-  validateByVersion(context, compatibilityProfileMismatchedBinding.schemaVersion, compatibilityProfileMismatchedBinding).valid,
+  validateByVersion(context, compatibilityProfileV1MismatchedBinding.schemaVersion, compatibilityProfileV1MismatchedBinding).valid,
   false,
-  "A compatibility profile must bind each version to its exact schema $id"
+  "Compatibility Profile v1 must bind each version to its exact schema $id"
 );
-const compatibilityProfileMissingSurface = structuredClone(compatibilityProfile);
-compatibilityProfileMissingSurface.implementationSurfaces[3] = { surface: "core", state: "not-released" };
+const compatibilityProfileV1MissingSurface = structuredClone(compatibilityProfileV1);
+compatibilityProfileV1MissingSurface.implementationSurfaces[3] = { surface: "core", state: "not-released" };
 assert.equal(
-  validateByVersion(context, compatibilityProfileMissingSurface.schemaVersion, compatibilityProfileMissingSurface).valid,
+  validateByVersion(context, compatibilityProfileV1MissingSurface.schemaVersion, compatibilityProfileV1MissingSurface).valid,
   false,
-  "A compatibility profile must declare every implementation surface state"
+  "Compatibility Profile v1 must declare every implementation surface state"
+);
+const compatibilityProfileV1WithV2Binding = structuredClone(compatibilityProfileV1);
+compatibilityProfileV1WithV2Binding.schemaBindings.push({
+  schemaVersion: "fenrua.authority-policy.v2",
+  schemaId: "urn:fenrua:schema:authority-policy-v2"
+});
+assert.equal(
+  validateByVersion(context, compatibilityProfileV1WithV2Binding.schemaVersion, compatibilityProfileV1WithV2Binding).valid,
+  false,
+  "Compatibility Profile v1 must reject a v2 policy binding"
+);
+assert.equal(
+  compatibilityProfileV2.schemaBindings.length,
+  16,
+  "Compatibility Profile v2 fixture must bind its complete non-vector tuple"
+);
+assert.equal(
+  compatibilityProfileV2.schemaBindings.some((binding) => binding.schemaVersion === "fenrua.authority-policy.v2"),
+  true,
+  "Compatibility Profile v2 must bind Authority Policy v2"
+);
+assert.equal(
+  compatibilityProfileV2.schemaBindings.some((binding) => binding.schemaVersion === "fenrua.evidence-bundle.v2"),
+  true,
+  "Compatibility Profile v2 must bind Evidence Bundle v2"
+);
+assert.equal(
+  compatibilityProfileV2.schemaBindings.some((binding) => binding.schemaVersion === "fenrua.compatibility-profile.v2"),
+  true,
+  "Compatibility Profile v2 must bind itself"
+);
+const compatibilityProfileV2MissingBinding = structuredClone(compatibilityProfileV2);
+compatibilityProfileV2MissingBinding.schemaBindings = compatibilityProfileV2MissingBinding.schemaBindings.filter(
+  (binding) => binding.schemaVersion !== "fenrua.evidence-bundle.v2"
+);
+assert.equal(
+  validateByVersion(context, compatibilityProfileV2MissingBinding.schemaVersion, compatibilityProfileV2MissingBinding).valid,
+  false,
+  "Compatibility Profile v2 must reject a missing v2 evidence binding"
+);
+const compatibilityProfileV2MismatchedBinding = structuredClone(compatibilityProfileV2);
+compatibilityProfileV2MismatchedBinding.schemaBindings[2].schemaId = "urn:fenrua:schema:evidence-bundle-v2";
+assert.equal(
+  validateByVersion(context, compatibilityProfileV2MismatchedBinding.schemaVersion, compatibilityProfileV2MismatchedBinding).valid,
+  false,
+  "Compatibility Profile v2 must bind each version to its exact schema $id"
+);
+const compatibilityProfileV2MissingSurface = structuredClone(compatibilityProfileV2);
+compatibilityProfileV2MissingSurface.implementationSurfaces[3] = { surface: "core", state: "not-released" };
+assert.equal(
+  validateByVersion(context, compatibilityProfileV2MissingSurface.schemaVersion, compatibilityProfileV2MissingSurface).valid,
+  false,
+  "Compatibility Profile v2 must declare every implementation surface state"
 );
 
 const canonicalDocuments = validFiles.map((file) => ({
@@ -127,17 +181,43 @@ for (const testCase of negativeIndex.cases) {
 const nestedUnknown = readStrictJson(resolve(invalidRoot, "approval.scope-unknown-field.json"));
 assert.equal(validateByVersion(context, nestedUnknown.schemaVersion, nestedUnknown).valid, false, "Nested unknown fields must fail");
 
-const vector = readStrictJson(resolve(validRoot, "verification-vector.json"));
-for (const document of vector.documents) {
-  const fixturePath = resolve(repositoryRoot, document.fixture);
-  assert.ok(existsSync(fixturePath), `Vector fixture path ${document.fixture} is missing`);
-  const referenced = readStrictJson(fixturePath);
-  const referencedEntry = context.schemas.get(referenced.schemaVersion)?.entry;
-  assert.equal(referencedEntry?.$id, document.schemaId, `Vector document ${document.fixture} has an incorrect schema binding`);
-  const actualDigest = createHash("sha256").update(readFileSync(fixturePath)).digest("hex");
-  assert.equal(document.fixtureDigest.algorithm, "sha-256", `Vector document ${document.fixture} must name SHA-256`);
-  assert.equal(document.fixtureDigest.value, actualDigest, `Vector document ${document.fixture} digest does not bind its exact fixture bytes`);
+const verificationVectorV1 = readStrictJson(resolve(validRoot, "verification-vector.json"));
+const verificationVectorV2 = readStrictJson(resolve(validRoot, "verification-vector-v2.json"));
+const verificationVectorV1WithV2Policy = structuredClone(verificationVectorV1);
+verificationVectorV1WithV2Policy.documents[0].schemaId = "urn:fenrua:schema:authority-policy-v2";
+assert.equal(
+  validateByVersion(context, verificationVectorV1WithV2Policy.schemaVersion, verificationVectorV1WithV2Policy).valid,
+  false,
+  "Verification Vector v1 must reject a v2 policy document"
+);
+assert.equal(
+  verificationVectorV2.documents.some((document) => document.schemaId === "urn:fenrua:schema:authority-policy-v2"),
+  true,
+  "Verification Vector v2 must cover Authority Policy v2"
+);
+assert.equal(
+  verificationVectorV2.documents.some((document) => document.schemaId === "urn:fenrua:schema:evidence-bundle-v2"),
+  true,
+  "Verification Vector v2 must cover Evidence Bundle v2"
+);
+assert.equal(
+  verificationVectorV2.documents.some((document) => document.schemaId === "urn:fenrua:schema:compatibility-profile-v2"),
+  true,
+  "Verification Vector v2 must cover Compatibility Profile v2"
+);
+for (const vector of [verificationVectorV1, verificationVectorV2]) {
+  for (const document of vector.documents) {
+    const fixturePath = resolve(repositoryRoot, document.fixture);
+    assert.ok(existsSync(fixturePath), `Vector fixture path ${document.fixture} is missing`);
+    const referenced = readStrictJson(fixturePath);
+    const referencedEntry = context.schemas.get(referenced.schemaVersion)?.entry;
+    assert.equal(referencedEntry?.$id, document.schemaId, `Vector document ${document.fixture} has an incorrect schema binding`);
+    const actualDigest = createHash("sha256").update(readFileSync(fixturePath)).digest("hex");
+    assert.equal(document.fixtureDigest.algorithm, "sha-256", `Vector document ${document.fixture} must name SHA-256`);
+    assert.equal(document.fixtureDigest.value, actualDigest, `Vector document ${document.fixture} digest does not bind its exact fixture bytes`);
+  }
 }
 
-assert.equal(Object.hasOwn(vector, "continueExecution"), false, "Vectors cannot carry execution instructions");
+assert.equal(Object.hasOwn(verificationVectorV1, "continueExecution"), false, "Verification Vector v1 cannot carry execution instructions");
+assert.equal(Object.hasOwn(verificationVectorV2, "continueExecution"), false, "Verification Vector v2 cannot carry execution instructions");
 process.stdout.write(`${JSON.stringify({ status: "ok", validFixtures: validFiles.length, negativeFixtures: negativeIndex.cases.length, crossRoleFailures })}\n`);

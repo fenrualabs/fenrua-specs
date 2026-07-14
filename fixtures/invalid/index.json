@@ -7,6 +7,8 @@
     { "file": "authority-policy-v2.context-selector-unknown-field.json", "schemaVersion": "fenrua.authority-policy.v2", "kind": "schema-invalid", "expectedKeyword": "additionalProperties" },
     { "file": "authority-policy-v2.missing-context-selector.json", "schemaVersion": "fenrua.authority-policy.v2", "kind": "schema-invalid", "expectedKeyword": "required" },
     { "file": "compatibility-profile.unknown-top-level.json", "schemaVersion": "fenrua.compatibility-profile.v1", "kind": "schema-invalid" },
+    { "file": "compatibility-profile-v1.v2-binding.json", "schemaVersion": "fenrua.compatibility-profile.v1", "kind": "schema-invalid", "expectedKeyword": "oneOf" },
+    { "file": "compatibility-profile-v2.missing-v2-binding.json", "schemaVersion": "fenrua.compatibility-profile.v2", "kind": "schema-invalid", "expectedKeyword": "contains" },
     { "file": "decision.invalid-timestamp.json", "schemaVersion": "fenrua.decision.v1", "kind": "schema-invalid" },
     { "file": "decision.unknown-top-level.json", "schemaVersion": "fenrua.decision.v1", "kind": "schema-invalid" },
     { "file": "duplicate-key.json", "kind": "strict-json-error" },
@@ -22,6 +24,7 @@
     { "file": "unknown-schema.json", "schemaVersion": "fenrua.future.v2", "kind": "schema-invalid", "expectedKeyword": "unsupported" },
     { "file": "verification-result.unknown-top-level.json", "schemaVersion": "fenrua.verification-result.v1", "kind": "schema-invalid" },
     { "file": "verification-vector.execution-field.json", "schemaVersion": "fenrua.verification-vector.v1", "kind": "schema-invalid", "expectedKeyword": "additionalProperties" },
+    { "file": "verification-vector-v2.unknown-top-level.json", "schemaVersion": "fenrua.verification-vector.v2", "kind": "schema-invalid", "expectedKeyword": "additionalProperties" },
     { "file": "verification-vector.unknown-top-level.json", "schemaVersion": "fenrua.verification-vector.v1", "kind": "schema-invalid" }
   ]
 }

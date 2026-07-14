@@ -1,0 +1,70 @@
+{
+  "schemaVersion": "fenrua.verification-vector.v2",
+  "vectorId": "urn:fenrua:verification-vector:local-v2-schema-allow",
+  "title": "Synthetic local v2 schema conformance vector",
+  "scenarioClass": "positive",
+  "targetProfileId": "urn:fenrua:compatibility-profile:v0-2",
+  "documents": [
+    {
+      "role": "compatibility-profile",
+      "schemaId": "urn:fenrua:schema:compatibility-profile-v2",
+      "fixture": "fixtures/valid/compatibility-profile-v2.json",
+      "fixtureDigest": {
+        "algorithm": "sha-256",
+        "value": "e72f74d5609735ddb220bccd23c0e88d9ca63d41e22ea41c7eaef3c7a6769303"
+      }
+    },
+    {
+      "role": "entity-manifest",
+      "schemaId": "urn:fenrua:schema:entity-manifest-v1",
+      "fixture": "fixtures/valid/entity-manifest.json",
+      "fixtureDigest": {
+        "algorithm": "sha-256",
+        "value": "6230dab2dedf614a33443c449f2cba5ec8fb99b28dbe55d39c097b5de3e90fc0"
+      }
+    },
+    {
+      "role": "authority-policy",
+      "schemaId": "urn:fenrua:schema:authority-policy-v2",
+      "fixture": "fixtures/valid/authority-policy-v2.json",
+      "fixtureDigest": {
+        "algorithm": "sha-256",
+        "value": "c4b4ea51175813d4044dd8223eabf2a59b9e1a0085bee674b6ed024989eea359"
+      }
+    },
+    {
+      "role": "tool-call-request",
+      "schemaId": "urn:fenrua:schema:tool-call-request-v1",
+      "fixture": "fixtures/valid/tool-call-request.json",
+      "fixtureDigest": {
+        "algorithm": "sha-256",
+        "value": "b5c9b95be727e1e53ee3bbb78bef51e9b8da13e859362a1d1480cd5d4ebb0e5c"
+      }
+    },
+    {
+      "role": "revocation-set",
+      "schemaId": "urn:fenrua:schema:revocation-set-v1",
+      "fixture": "fixtures/valid/revocation-set.json",
+      "fixtureDigest": {
+        "algorithm": "sha-256",
+        "value": "a95c53bff231730405e07dd64e830e11165c42402151b481b6a6eacad28cc1ea"
+      }
+    },
+    {
+      "role": "evidence-bundle",
+      "schemaId": "urn:fenrua:schema:evidence-bundle-v2",
+      "fixture": "fixtures/valid/evidence-bundle-v2.json",
+      "fixtureDigest": {
+        "algorithm": "sha-256",
+        "value": "8182417df700de1d0a8414fcfdf2762a3473029c6f57c9675f0f997381280d14"
+      }
+    }
+  ],
+  "expected": {
+    "schemaValidation": "VALID",
+    "expectedDecision": "ALLOW",
+    "expectedReasonCodes": ["ALLOW_POLICY_MATCH"],
+    "expectedVerificationState": "PASS_WITH_LIMITATIONS"
+  },
+  "limitations": ["Synthetic conformance metadata only; it does not prove a local evaluation, released interface, or execution authorisation."]
+}
