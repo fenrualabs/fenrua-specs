@@ -6,14 +6,14 @@ import addFormats from "ajv-formats";
 import { parseStrictJson } from "./strict-json.mjs";
 
 export const repositoryRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
-export const schemaRoot = resolve(repositoryRoot, "schemas", "v0.1");
+export const schemaRegistryPath = resolve(repositoryRoot, "schemas", "v0.2", "registry.json");
 
 export function readStrictJson(path) {
   return parseStrictJson(readFileSync(path, "utf8"));
 }
 
 export function loadRegistry() {
-  return readStrictJson(resolve(schemaRoot, "registry.json"));
+  return readStrictJson(schemaRegistryPath);
 }
 
 export function createSchemaValidator() {

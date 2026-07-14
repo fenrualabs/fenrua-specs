@@ -27,6 +27,30 @@ for (const file of validFiles) {
 
 assert.deepEqual([...fixtureVersions].sort(), [...registryVersions].sort(), "Canonical fixtures must cover exactly the registry schemas");
 
+const authorityPolicyV1 = readStrictJson(resolve(validRoot, "authority-policy.json"));
+const authorityPolicyV2 = readStrictJson(resolve(validRoot, "authority-policy-v2.json"));
+const toolCallRequest = readStrictJson(resolve(validRoot, "tool-call-request.json"));
+assert.equal(Object.hasOwn(authorityPolicyV1.rules[0], "contextSelector"), false, "Authority Policy v1 fixture must remain selector-free");
+assert.deepEqual(
+  authorityPolicyV2.rules[0].contextSelector,
+  toolCallRequest.context,
+  "Authority Policy v2 fixture must use an exact Context-shaped selector"
+);
+const authorityPolicyV2MissingContextSelector = structuredClone(authorityPolicyV2);
+delete authorityPolicyV2MissingContextSelector.rules[0].contextSelector;
+assert.equal(
+  validateByVersion(context, authorityPolicyV2MissingContextSelector.schemaVersion, authorityPolicyV2MissingContextSelector).valid,
+  false,
+  "Authority Policy v2 must reject a rule without contextSelector"
+);
+const authorityPolicyV2UnknownContextField = structuredClone(authorityPolicyV2);
+authorityPolicyV2UnknownContextField.rules[0].contextSelector.unexpectedContextField = true;
+assert.equal(
+  validateByVersion(context, authorityPolicyV2UnknownContextField.schemaVersion, authorityPolicyV2UnknownContextField).valid,
+  false,
+  "Authority Policy v2 contextSelector must reject unknown fields"
+);
+
 const compatibilityProfile = readStrictJson(resolve(validRoot, "compatibility-profile.json"));
 const compatibilityProfileMissingBinding = structuredClone(compatibilityProfile);
 compatibilityProfileMissingBinding.schemaBindings.pop();

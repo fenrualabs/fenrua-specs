@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:fenrua:schema:authority-policy-v2",
+  "title": "Fenrua authority policy v2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "policyId",
+    "scope",
+    "revision",
+    "lifecycle",
+    "issuerId",
+    "issuedAt",
+    "effectiveAt",
+    "expiresAt",
+    "rules",
+    "integrity",
+    "evidenceRefs",
+    "signature"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "fenrua.authority-policy.v2" },
+    "policyId": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/PolicyId" },
+    "scope": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/Scope" },
+    "revision": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/Revision" },
+    "lifecycle": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/Lifecycle" },
+    "issuerId": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/Identifier" },
+    "issuedAt": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/UtcDateTimeMillis" },
+    "effectiveAt": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/UtcDateTimeMillis" },
+    "expiresAt": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/UtcDateTimeMillis" },
+    "rules": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 256,
+      "items": { "$ref": "#/$defs/Rule" }
+    },
+    "integrity": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/Digest" },
+    "evidenceRefs": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 32,
+      "items": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/EvidenceReference" }
+    },
+    "supersedes": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/PolicyRef" },
+    "signature": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/Signature" }
+  },
+  "$defs": {
+    "Rule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "ruleId",
+        "effect",
+        "subjectSelector",
+        "actorSelector",
+        "contextSelector",
+        "actions",
+        "resources",
+        "scope",
+        "reasonCode"
+      ],
+      "properties": {
+        "ruleId": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 117,
+          "pattern": "^urn:fenrua:rule:[a-z0-9][a-z0-9-]{0,95}$"
+        },
+        "effect": { "enum": ["ALLOW", "DENY"] },
+        "subjectSelector": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/Selector" },
+        "actorSelector": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/Selector" },
+        "contextSelector": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/Context" },
+        "actions": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 64,
+          "items": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/Action" }
+        },
+        "resources": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 64,
+          "items": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/Resource" }
+        },
+        "scope": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/Scope" },
+        "timeWindow": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/TimeWindow" },
+        "requiredIntegrityDigests": {
+          "type": "array",
+          "maxItems": 32,
+          "items": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/Digest" }
+        },
+        "requiredEvidence": {
+          "type": "array",
+          "maxItems": 32,
+          "items": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/Token" }
+        },
+        "requiredApprovals": {
+          "type": "array",
+          "maxItems": 16,
+          "items": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/ApprovalRequirement" }
+        },
+        "obligations": {
+          "type": "array",
+          "maxItems": 32,
+          "items": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/Obligation" }
+        },
+        "reasonCode": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/ReasonCode" }
+      }
+    }
+  }
+}

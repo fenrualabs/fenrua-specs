@@ -10,9 +10,12 @@ production cryptographic profile.
 
 ## Contents
 
-- `schemas/v0.1/registry.json` records the immutable exact `$id` for the 13
-  protocol schemas and the test-only `fenrua.verification-vector.v1` schema.
-- `schemas/v0.1/shared-definitions.json` holds bounded shared vocabulary.
+- `schemas/v0.1/` is the immutable R1 baseline: its registry records 13
+  protocol schemas and the test-only `fenrua.verification-vector.v1` schema,
+  and its shared definitions hold bounded vocabulary.
+- `schemas/v0.2/registry.json` retains those exact v1 entries and adds
+  `fenrua.authority-policy.v2` at
+  `urn:fenrua:schema:authority-policy-v2`.
 - `fixtures/` contains synthetic positive and negative conformance material.
 - `scripts/` provides deterministic local strict-JSON and schema validation.
 

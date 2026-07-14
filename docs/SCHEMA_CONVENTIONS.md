@@ -3,7 +3,7 @@
 ## Dialect and identity
 
 All registered top-level schemas use JSON Schema 2020-12 and an exact immutable
-URN `$id` of the form `urn:fenrua:schema:<name>-v1`. The registry is the
+URN `$id` of the form `urn:fenrua:schema:<name>-v<version>`. The registry is the
 authoritative mapping from instance `schemaVersion` to `$id`; no remote schema
 fetch is permitted.
 
@@ -33,6 +33,21 @@ JSON Schema can establish structural presence but cannot prove equality between
 two independently nested digests, scope references, timestamps, or signatures.
 The evaluator/verifier must enforce those cross-document bindings before any
 decision. Failure is fail-closed.
+
+## Authority Policy v2 context selection
+
+Every `fenrua.authority-policy.v2` rule requires `contextSelector`. It is a
+direct reference to the shared `Context` definition, so it requires closed,
+bounded `contextId`, `audience`, and non-empty `bindings`; it does not admit a
+loose selector object, wildcard field, or extension field. Authority Policy v1
+does not gain this field.
+
+For v2 rule evaluation, `contextSelector` is an exact parsed-structure match
+against the request `context`: `contextId` and `audience` must match, and
+`bindings` must match as the same ordered sequence of `KeyValue` values. There
+is no partial matching, wildcarding, coercion, or normalization. JSON Schema
+cannot make that cross-document comparison, so an evaluator must perform it
+after schema validation and fail closed when it does not match.
 
 ## Canonicalisation boundary
 
