@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:fenrua:schema-registry:v0-2",
+  "registryFormat": "fenrua.schema-registry.v1",
+  "maturity": "R1-specification",
+  "releaseState": "no-trust-gate-or-sdk-release",
+  "schemaDialect": "https://json-schema.org/draft/2020-12/schema",
+  "immutability": {
+    "rule": "A published exact $id is immutable. Any incompatible or compatible semantic change requires a new exact $id and registry entry.",
+    "mutationAllowed": false
+  },
+  "sharedDefinitions": {
+    "$id": "urn:fenrua:schema:shared-definitions-v1",
+    "path": "schemas/v0.1/shared-definitions.json",
+    "role": "internal-shared-vocabulary-not-an-instance-schema"
+  },
+  "schemas": [
+    {
+      "schemaVersion": "fenrua.entity-manifest.v1",
+      "$id": "urn:fenrua:schema:entity-manifest-v1",
+      "path": "schemas/v0.1/entity-manifest.schema.json",
+      "role": "input"
+    },
+    {
+      "schemaVersion": "fenrua.authority-policy.v1",
+      "$id": "urn:fenrua:schema:authority-policy-v1",
+      "path": "schemas/v0.1/authority-policy.schema.json",
+      "role": "input"
+    },
+    {
+      "schemaVersion": "fenrua.tool-call-request.v1",
+      "$id": "urn:fenrua:schema:tool-call-request-v1",
+      "path": "schemas/v0.1/tool-call-request.schema.json",
+      "role": "input"
+    },
+    {
+      "schemaVersion": "fenrua.approval.v1",
+      "$id": "urn:fenrua:schema:approval-v1",
+      "path": "schemas/v0.1/approval.schema.json",
+      "role": "input"
+    },
+    {
+      "schemaVersion": "fenrua.revocation-set.v1",
+      "$id": "urn:fenrua:schema:revocation-set-v1",
+      "path": "schemas/v0.1/revocation-set.schema.json",
+      "role": "input"
+    },
+    {
+      "schemaVersion": "fenrua.decision.v1",
+      "$id": "urn:fenrua:schema:decision-v1",
+      "path": "schemas/v0.1/decision.schema.json",
+      "role": "output"
+    },
+    {
+      "schemaVersion": "fenrua.evidence-bundle.v1",
+      "$id": "urn:fenrua:schema:evidence-bundle-v1",
+      "path": "schemas/v0.1/evidence-bundle.schema.json",
+      "role": "output"
+    },
+    {
+      "schemaVersion": "fenrua.receipt.v1",
+      "$id": "urn:fenrua:schema:receipt-v1",
+      "path": "schemas/v0.1/receipt.schema.json",
+      "role": "output"
+    },
+    {
+      "schemaVersion": "fenrua.verification-result.v1",
+      "$id": "urn:fenrua:schema:verification-result-v1",
+      "path": "schemas/v0.1/verification-result.schema.json",
+      "role": "independent-verifier-output"
+    },
+    {
+      "schemaVersion": "fenrua.key-metadata.v1",
+      "$id": "urn:fenrua:schema:key-metadata-v1",
+      "path": "schemas/v0.1/key-metadata.schema.json",
+      "role": "input"
+    },
+    {
+      "schemaVersion": "fenrua.key-rotation.v1",
+      "$id": "urn:fenrua:schema:key-rotation-v1",
+      "path": "schemas/v0.1/key-rotation.schema.json",
+      "role": "input"
+    },
+    {
+      "schemaVersion": "fenrua.audit-event.v1",
+      "$id": "urn:fenrua:schema:audit-event-v1",
+      "path": "schemas/v0.1/audit-event.schema.json",
+      "role": "evidence-output"
+    },
+    {
+      "schemaVersion": "fenrua.compatibility-profile.v1",
+      "$id": "urn:fenrua:schema:compatibility-profile-v1",
+      "path": "schemas/v0.1/compatibility-profile.schema.json",
+      "role": "input"
+    },
+    {
+      "schemaVersion": "fenrua.verification-vector.v1",
+      "$id": "urn:fenrua:schema:verification-vector-v1",
+      "path": "schemas/v0.1/verification-vector.schema.json",
+      "role": "test-only-non-output"
+    },
+    {
+      "schemaVersion": "fenrua.authority-policy.v2",
+      "$id": "urn:fenrua:schema:authority-policy-v2",
+      "path": "schemas/v0.2/authority-policy.schema.json",
+      "role": "input"
+    }
+  ]
+}

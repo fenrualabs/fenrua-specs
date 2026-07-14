@@ -4,6 +4,8 @@
     { "file": "approval.scope-unknown-field.json", "schemaVersion": "fenrua.approval.v1", "kind": "schema-invalid", "expectedKeyword": "additionalProperties" },
     { "file": "audit-event.unknown-top-level.json", "schemaVersion": "fenrua.audit-event.v1", "kind": "schema-invalid" },
     { "file": "authority-policy.unknown-top-level.json", "schemaVersion": "fenrua.authority-policy.v1", "kind": "schema-invalid" },
+    { "file": "authority-policy-v2.context-selector-unknown-field.json", "schemaVersion": "fenrua.authority-policy.v2", "kind": "schema-invalid", "expectedKeyword": "additionalProperties" },
+    { "file": "authority-policy-v2.missing-context-selector.json", "schemaVersion": "fenrua.authority-policy.v2", "kind": "schema-invalid", "expectedKeyword": "required" },
     { "file": "compatibility-profile.unknown-top-level.json", "schemaVersion": "fenrua.compatibility-profile.v1", "kind": "schema-invalid" },
     { "file": "decision.invalid-timestamp.json", "schemaVersion": "fenrua.decision.v1", "kind": "schema-invalid" },
     { "file": "decision.unknown-top-level.json", "schemaVersion": "fenrua.decision.v1", "kind": "schema-invalid" },
