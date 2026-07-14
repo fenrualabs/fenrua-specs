@@ -1,0 +1,88 @@
+{
+  "schemaVersion": "fenrua.tool-call-request.v1",
+  "requestId": "urn:fenrua:tool-call-request:demo-001",
+  "scope": {
+    "tenantId": "urn:fenrua:tenant:demo",
+    "environmentId": "urn:fenrua:environment:development"
+  },
+  "subjectId": "urn:fenrua:entity:demo-agent",
+  "actorId": "urn:fenrua:actor:demo-operator",
+  "action": "tool.execute",
+  "resource": "artifact:demo-build",
+  "context": {
+    "contextId": "urn:fenrua:context:demo-request",
+    "audience": "urn:fenrua:audience:demo-tool",
+    "bindings": [
+      {
+        "key": "purpose",
+        "value": "synthetic-fixture"
+      }
+    ]
+  },
+  "issuedAt": "2026-07-14T00:00:00.000Z",
+  "expiresAt": "2026-07-14T00:05:00.000Z",
+  "nonce": "fixture_nonce_0001",
+  "sequence": "1",
+  "challenge": "fixture_challenge_0001",
+  "replayRequired": true,
+  "payloadDigest": {
+    "algorithm": "sha-256",
+    "value": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "artifact": {
+    "artifactId": "urn:fenrua:artifact:demo-build",
+    "scope": {
+      "tenantId": "urn:fenrua:tenant:demo",
+      "environmentId": "urn:fenrua:environment:development"
+    },
+    "revision": "1",
+    "digest": {
+      "algorithm": "sha-256",
+      "value": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    "effectiveAt": "2026-07-14T00:00:00.000Z",
+    "evidenceRefs": [
+      {
+        "evidenceBundleId": "urn:fenrua:evidence-bundle:bootstrap-evidence",
+        "digest": {
+          "algorithm": "sha-256",
+          "value": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        "createdAt": "2026-07-14T00:00:00.000Z"
+      }
+    ]
+  },
+  "policyRefs": [
+    {
+      "policyId": "urn:fenrua:policy:demo-allow-tool",
+      "scope": {
+        "tenantId": "urn:fenrua:tenant:demo",
+        "environmentId": "urn:fenrua:environment:development"
+      },
+      "revision": "1",
+      "digest": {
+        "algorithm": "sha-256",
+        "value": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "effectiveAt": "2026-07-14T00:00:00.000Z",
+      "evidenceRefs": [
+        {
+          "evidenceBundleId": "urn:fenrua:evidence-bundle:bootstrap-evidence",
+          "digest": {
+            "algorithm": "sha-256",
+            "value": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          },
+          "createdAt": "2026-07-14T00:00:00.000Z"
+        }
+      ]
+    }
+  ],
+  "signature": {
+    "profile": "local-unsigned-development",
+    "keyId": "urn:fenrua:key:local-unsigned-development",
+    "payloadDigest": {
+      "algorithm": "sha-256",
+      "value": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    }
+  }
+}

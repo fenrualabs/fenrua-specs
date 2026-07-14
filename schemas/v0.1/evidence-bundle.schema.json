@@ -1,0 +1,125 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:fenrua:schema:evidence-bundle-v1",
+  "title": "Fenrua evidence bundle v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "bundleId",
+    "tenantScope",
+    "environment",
+    "subject",
+    "actor",
+    "request",
+    "policy",
+    "decision",
+    "approvals",
+    "integrity",
+    "revocation",
+    "runtime",
+    "inputs",
+    "outputs",
+    "events",
+    "limitations",
+    "createdAt",
+    "expiresAt",
+    "producer",
+    "producerVersion",
+    "signatureProfile",
+    "keyId",
+    "signature"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "fenrua.evidence-bundle.v1" },
+    "bundleId": {
+      "type": "string",
+      "minLength": 28,
+      "maxLength": 125,
+      "pattern": "^urn:fenrua:evidence-bundle:[a-z0-9][a-z0-9-]{0,95}$"
+    },
+    "tenantScope": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/TenantId" },
+    "environment": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/EnvironmentId" },
+    "subject": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/EntityId" },
+    "actor": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/Identifier" },
+    "request": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/DocumentRef" },
+    "policy": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/PolicyRef" },
+    "decision": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/DecisionRef" },
+    "approvals": {
+      "type": "array",
+      "maxItems": 64,
+      "items": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/ApprovalRef" }
+    },
+    "integrity": {
+      "type": "array",
+      "maxItems": 64,
+      "items": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/ArtifactRef" }
+    },
+    "revocation": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/RevocationSetRef" },
+    "runtime": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/RuntimeRef" },
+    "inputs": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 128,
+      "items": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/DocumentRef" }
+    },
+    "outputs": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 64,
+      "items": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/DocumentRef" }
+    },
+    "events": {
+      "type": "array",
+      "maxItems": 256,
+      "items": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/AuditEventRef" }
+    },
+    "limitations": {
+      "type": "array",
+      "maxItems": 64,
+      "items": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/Limitation" }
+    },
+    "createdAt": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/UtcDateTimeMillis" },
+    "expiresAt": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/UtcDateTimeMillis" },
+    "producer": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/Identifier" },
+    "producerVersion": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/Semver" },
+    "signatureProfile": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/SignatureProfile" },
+    "keyId": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/KeyId" },
+    "signature": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/Signature" },
+    "supersedes": {
+      "type": "string",
+      "minLength": 28,
+      "maxLength": 125,
+      "pattern": "^urn:fenrua:evidence-bundle:[a-z0-9][a-z0-9-]{0,95}$"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "signatureProfile": { "const": "local-unsigned-development" } },
+        "required": ["signatureProfile"]
+      },
+      "then": {
+        "properties": {
+          "keyId": { "const": "urn:fenrua:key:local-unsigned-development" },
+          "signature": {
+            "type": "object",
+            "properties": { "profile": { "const": "local-unsigned-development" } },
+            "required": ["profile"]
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "signature": {
+            "type": "object",
+            "properties": {
+              "profile": { "enum": ["ed25519-v1", "p256-v1", "enterprise-provider-v1"] }
+            },
+            "required": ["profile"]
+          }
+        }
+      }
+    }
+  ]
+}

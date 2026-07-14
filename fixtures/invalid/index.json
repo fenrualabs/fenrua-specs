@@ -1,0 +1,24 @@
+{
+  "cases": [
+    { "file": "approval.unknown-top-level.json", "schemaVersion": "fenrua.approval.v1", "kind": "schema-invalid" },
+    { "file": "approval.scope-unknown-field.json", "schemaVersion": "fenrua.approval.v1", "kind": "schema-invalid", "expectedKeyword": "additionalProperties" },
+    { "file": "audit-event.unknown-top-level.json", "schemaVersion": "fenrua.audit-event.v1", "kind": "schema-invalid" },
+    { "file": "authority-policy.unknown-top-level.json", "schemaVersion": "fenrua.authority-policy.v1", "kind": "schema-invalid" },
+    { "file": "compatibility-profile.unknown-top-level.json", "schemaVersion": "fenrua.compatibility-profile.v1", "kind": "schema-invalid" },
+    { "file": "decision.invalid-timestamp.json", "schemaVersion": "fenrua.decision.v1", "kind": "schema-invalid" },
+    { "file": "decision.unknown-top-level.json", "schemaVersion": "fenrua.decision.v1", "kind": "schema-invalid" },
+    { "file": "duplicate-key.json", "kind": "strict-json-error" },
+    { "file": "entity-manifest.unknown-top-level.json", "schemaVersion": "fenrua.entity-manifest.v1", "kind": "schema-invalid" },
+    { "file": "evidence-bundle.unknown-top-level.json", "schemaVersion": "fenrua.evidence-bundle.v1", "kind": "schema-invalid" },
+    { "file": "key-metadata.unknown-top-level.json", "schemaVersion": "fenrua.key-metadata.v1", "kind": "schema-invalid" },
+    { "file": "key-rotation.unknown-top-level.json", "schemaVersion": "fenrua.key-rotation.v1", "kind": "schema-invalid" },
+    { "file": "receipt.unknown-top-level.json", "schemaVersion": "fenrua.receipt.v1", "kind": "schema-invalid" },
+    { "file": "revocation-set.unknown-top-level.json", "schemaVersion": "fenrua.revocation-set.v1", "kind": "schema-invalid" },
+    { "file": "tool-call-request.unknown-top-level.json", "schemaVersion": "fenrua.tool-call-request.v1", "kind": "schema-invalid" },
+    { "file": "unpaired-surrogate.json", "kind": "strict-json-error" },
+    { "file": "unknown-schema.json", "schemaVersion": "fenrua.future.v2", "kind": "schema-invalid", "expectedKeyword": "unsupported" },
+    { "file": "verification-result.unknown-top-level.json", "schemaVersion": "fenrua.verification-result.v1", "kind": "schema-invalid" },
+    { "file": "verification-vector.execution-field.json", "schemaVersion": "fenrua.verification-vector.v1", "kind": "schema-invalid", "expectedKeyword": "additionalProperties" },
+    { "file": "verification-vector.unknown-top-level.json", "schemaVersion": "fenrua.verification-vector.v1", "kind": "schema-invalid" }
+  ]
+}

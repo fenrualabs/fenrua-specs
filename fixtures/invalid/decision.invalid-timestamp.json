@@ -1,0 +1,38 @@
+{
+  "schemaVersion": "fenrua.decision.v1",
+  "decisionId": "urn:fenrua:decision:demo-001",
+  "scope": {
+    "tenantId": "urn:fenrua:tenant:demo",
+    "environmentId": "urn:fenrua:environment:development"
+  },
+  "profileId": "urn:fenrua:compatibility-profile:v0-1",
+  "decision": "ALLOW",
+  "verificationState": "PASS",
+  "reasonCodes": [
+    "ALLOW_POLICY_MATCH"
+  ],
+  "subjectId": "urn:fenrua:entity:demo-agent",
+  "actorId": "urn:fenrua:actor:demo-operator",
+  "action": "tool.execute",
+  "resource": "artifact:demo-build",
+  "policyId": "urn:fenrua:policy:demo-allow-tool",
+  "policyRevision": "1",
+  "requestDigest": {
+    "algorithm": "sha-256",
+    "value": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "evidenceBundleId": "urn:fenrua:evidence-bundle:demo-001",
+  "issuedAt": "2026-07-14T00:00:00Z",
+  "expiresAt": "2026-07-14T00:05:00.000Z",
+  "limitations": [
+    "Synthetic schema fixture; no evaluator was executed."
+  ],
+  "signature": {
+    "profile": "local-unsigned-development",
+    "keyId": "urn:fenrua:key:local-unsigned-development",
+    "payloadDigest": {
+      "algorithm": "sha-256",
+      "value": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    }
+  }
+}

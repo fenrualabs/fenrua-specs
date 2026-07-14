@@ -1,0 +1,23 @@
+{
+  "name": "@fenrua/specs",
+  "version": "0.1.0-spec.1",
+  "private": true,
+  "description": "R1 normative schema and conformance-vector foundation for Fenrua.",
+  "type": "module",
+  "engines": {
+    "node": ">=20.0.0 <25.0.0"
+  },
+  "packageManager": "npm@11.18.0",
+  "scripts": {
+    "check": "npm run check:schemas && npm run test:fixtures && npm run check:public-boundary",
+    "check:schemas": "node scripts/check-schema-registry.mjs",
+    "test": "npm run check",
+    "test:fixtures": "node scripts/validate-fixtures.mjs",
+    "check:public-boundary": "node scripts/check-public-boundary.mjs",
+    "validate": "node scripts/validate-document.mjs"
+  },
+  "dependencies": {
+    "ajv": "8.20.0",
+    "ajv-formats": "3.0.1"
+  }
+}

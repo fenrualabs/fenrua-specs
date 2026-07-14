@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "fenrua.key-rotation.v1",
+  "rotationId": "urn:fenrua:key-rotation:demo-001",
+  "scope": {
+    "tenantId": "urn:fenrua:tenant:demo",
+    "environmentId": "urn:fenrua:environment:development"
+  },
+  "oldKeyId": "urn:fenrua:key:demo-ed25519-old",
+  "newKeyId": "urn:fenrua:key:demo-ed25519",
+  "reason": "scheduled",
+  "issuedAt": "2026-07-14T00:00:00.000Z",
+  "effectiveAt": "2026-07-14T00:00:00.000Z",
+  "approvalRefs": [
+    {
+      "approvalId": "urn:fenrua:approval:demo-001",
+      "requestDigest": {
+        "algorithm": "sha-256",
+        "value": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "expiresAt": "2026-07-14T00:05:00.000Z"
+    }
+  ],
+  "evidenceRefs": [
+    {
+      "evidenceBundleId": "urn:fenrua:evidence-bundle:bootstrap-evidence",
+      "digest": {
+        "algorithm": "sha-256",
+        "value": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "createdAt": "2026-07-14T00:00:00.000Z"
+    }
+  ],
+  "signature": {
+    "profile": "local-unsigned-development",
+    "keyId": "urn:fenrua:key:local-unsigned-development",
+    "payloadDigest": {
+      "algorithm": "sha-256",
+      "value": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    }
+  },
+  "unexpectedTopLevelField": true
+}

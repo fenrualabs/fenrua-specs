@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:fenrua:schema:key-rotation-v1",
+  "title": "Fenrua key rotation v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "rotationId",
+    "scope",
+    "oldKeyId",
+    "newKeyId",
+    "reason",
+    "issuedAt",
+    "effectiveAt",
+    "approvalRefs",
+    "evidenceRefs",
+    "signature"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "fenrua.key-rotation.v1" },
+    "rotationId": {
+      "type": "string",
+      "minLength": 25,
+      "maxLength": 122,
+      "pattern": "^urn:fenrua:key-rotation:[a-z0-9][a-z0-9-]{0,95}$"
+    },
+    "scope": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/Scope" },
+    "oldKeyId": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/KeyId" },
+    "newKeyId": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/KeyId" },
+    "reason": { "enum": ["scheduled", "emergency", "compromise", "algorithm-transition"] },
+    "issuedAt": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/UtcDateTimeMillis" },
+    "effectiveAt": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/UtcDateTimeMillis" },
+    "approvalRefs": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 16,
+      "items": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/ApprovalRef" }
+    },
+    "evidenceRefs": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 32,
+      "items": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/EvidenceReference" }
+    },
+    "signature": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/Signature" }
+  }
+}

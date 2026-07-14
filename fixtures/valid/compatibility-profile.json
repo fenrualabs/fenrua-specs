@@ -1,0 +1,44 @@
+{
+  "schemaVersion": "fenrua.compatibility-profile.v1",
+  "profileId": "urn:fenrua:compatibility-profile:v0-1",
+  "scope": {
+    "tenantId": "urn:fenrua:tenant:demo",
+    "environmentId": "urn:fenrua:environment:development"
+  },
+  "revision": "1",
+  "lifecycle": "active",
+  "issuedAt": "2026-07-14T00:00:00.000Z",
+  "expiresAt": "2026-07-15T00:00:00.000Z",
+  "canonicalizationProfile": "fenrua-c14n-v1",
+  "schemaBindings": [
+    { "schemaVersion": "fenrua.entity-manifest.v1", "schemaId": "urn:fenrua:schema:entity-manifest-v1" },
+    { "schemaVersion": "fenrua.authority-policy.v1", "schemaId": "urn:fenrua:schema:authority-policy-v1" },
+    { "schemaVersion": "fenrua.tool-call-request.v1", "schemaId": "urn:fenrua:schema:tool-call-request-v1" },
+    { "schemaVersion": "fenrua.approval.v1", "schemaId": "urn:fenrua:schema:approval-v1" },
+    { "schemaVersion": "fenrua.revocation-set.v1", "schemaId": "urn:fenrua:schema:revocation-set-v1" },
+    { "schemaVersion": "fenrua.decision.v1", "schemaId": "urn:fenrua:schema:decision-v1" },
+    { "schemaVersion": "fenrua.evidence-bundle.v1", "schemaId": "urn:fenrua:schema:evidence-bundle-v1" },
+    { "schemaVersion": "fenrua.receipt.v1", "schemaId": "urn:fenrua:schema:receipt-v1" },
+    { "schemaVersion": "fenrua.verification-result.v1", "schemaId": "urn:fenrua:schema:verification-result-v1" },
+    { "schemaVersion": "fenrua.key-metadata.v1", "schemaId": "urn:fenrua:schema:key-metadata-v1" },
+    { "schemaVersion": "fenrua.key-rotation.v1", "schemaId": "urn:fenrua:schema:key-rotation-v1" },
+    { "schemaVersion": "fenrua.audit-event.v1", "schemaId": "urn:fenrua:schema:audit-event-v1" },
+    { "schemaVersion": "fenrua.compatibility-profile.v1", "schemaId": "urn:fenrua:schema:compatibility-profile-v1" }
+  ],
+  "signingProfiles": ["local-unsigned-development"],
+  "implementationSurfaces": [
+    { "surface": "core", "state": "not-released" },
+    { "surface": "cli", "state": "not-released" },
+    { "surface": "sdk", "state": "not-released" },
+    { "surface": "api", "state": "not-released" }
+  ],
+  "downgradePolicy": "forbidden-by-default",
+  "signature": {
+    "profile": "local-unsigned-development",
+    "keyId": "urn:fenrua:key:local-unsigned-development",
+    "payloadDigest": {
+      "algorithm": "sha-256",
+      "value": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    }
+  }
+}

@@ -1,0 +1,15 @@
+node_modules/
+npm-debug.log*
+.DS_Store
+
+# Public repository boundary: local review material and raw exports never belong here.
+artifacts/
+audit-reports/
+scan-dumps/
+screenshots/
+private/
+*.sarif
+*.har
+*.pcap
+*.key
+*.pem

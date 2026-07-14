@@ -1,0 +1,65 @@
+{
+  "schemaVersion": "fenrua.entity-manifest.v1",
+  "manifestId": "urn:fenrua:entity-manifest:demo-agent-v1",
+  "subjectId": "urn:fenrua:entity:demo-agent",
+  "ownerId": "urn:fenrua:organisation:fenrua",
+  "scope": {
+    "tenantId": "urn:fenrua:tenant:demo",
+    "environmentId": "urn:fenrua:environment:development"
+  },
+  "entityType": "agent",
+  "displayName": "Synthetic fixture agent",
+  "lifecycle": "active",
+  "revision": "1",
+  "issuedAt": "2026-07-14T00:00:00.000Z",
+  "expiresAt": "2026-07-15T00:00:00.000Z",
+  "declaredCapabilities": ["tool.execute"],
+  "artifacts": [
+    {
+      "artifactId": "urn:fenrua:artifact:demo-build",
+      "scope": {
+        "tenantId": "urn:fenrua:tenant:demo",
+        "environmentId": "urn:fenrua:environment:development"
+      },
+      "revision": "1",
+      "digest": {
+        "algorithm": "sha-256",
+        "value": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "effectiveAt": "2026-07-14T00:00:00.000Z",
+      "evidenceRefs": [
+        {
+          "evidenceBundleId": "urn:fenrua:evidence-bundle:bootstrap-evidence",
+          "digest": {
+            "algorithm": "sha-256",
+            "value": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          },
+          "createdAt": "2026-07-14T00:00:00.000Z"
+        }
+      ]
+    }
+  ],
+  "integrity": {
+    "algorithm": "sha-256",
+    "value": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "dataClassification": "public",
+  "evidenceRefs": [
+    {
+      "evidenceBundleId": "urn:fenrua:evidence-bundle:bootstrap-evidence",
+      "digest": {
+        "algorithm": "sha-256",
+        "value": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "createdAt": "2026-07-14T00:00:00.000Z"
+    }
+  ],
+  "signature": {
+    "profile": "local-unsigned-development",
+    "keyId": "urn:fenrua:key:local-unsigned-development",
+    "payloadDigest": {
+      "algorithm": "sha-256",
+      "value": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    }
+  }
+}

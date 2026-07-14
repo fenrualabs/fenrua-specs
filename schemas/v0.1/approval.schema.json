@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:fenrua:schema:approval-v1",
+  "title": "Fenrua approval v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "approvalId",
+    "scope",
+    "approverId",
+    "authorityId",
+    "subjectId",
+    "actorId",
+    "action",
+    "resource",
+    "requestDigest",
+    "policy",
+    "issuedAt",
+    "expiresAt",
+    "reason",
+    "useLimit",
+    "revocationState",
+    "signature"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "fenrua.approval.v1" },
+    "approvalId": {
+      "type": "string",
+      "minLength": 21,
+      "maxLength": 118,
+      "pattern": "^urn:fenrua:approval:[a-z0-9][a-z0-9-]{0,95}$"
+    },
+    "scope": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/Scope" },
+    "approverId": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/Identifier" },
+    "authorityId": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/Identifier" },
+    "subjectId": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/EntityId" },
+    "actorId": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/Identifier" },
+    "action": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/Action" },
+    "resource": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/Resource" },
+    "requestDigest": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/Digest" },
+    "policy": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/PolicyRef" },
+    "issuedAt": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/UtcDateTimeMillis" },
+    "expiresAt": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/UtcDateTimeMillis" },
+    "reason": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/ShortText" },
+    "useLimit": { "type": "integer", "minimum": 1, "maximum": 16 },
+    "revocationState": { "enum": ["active", "revoked"] },
+    "signature": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/Signature" }
+  }
+}
