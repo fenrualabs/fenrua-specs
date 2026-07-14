@@ -1,0 +1,33 @@
+{
+  "schemaVersion": "fenrua.receipt.v1",
+  "receiptId": "urn:fenrua:receipt:demo-001",
+  "bundleId": "urn:fenrua:evidence-bundle:demo-001",
+  "decisionId": "urn:fenrua:decision:demo-001",
+  "decision": "ALLOW",
+  "subjectId": "urn:fenrua:entity:demo-agent",
+  "actorId": "urn:fenrua:actor:demo-operator",
+  "action": "tool.execute",
+  "resource": "artifact:demo-build",
+  "reasonCodes": [
+    "ALLOW_POLICY_MATCH"
+  ],
+  "issuedAt": "2026-07-14T00:00:00.000Z",
+  "expiresAt": "2026-07-14T00:05:00.000Z",
+  "bundleDigest": {
+    "algorithm": "sha-256",
+    "value": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "summary": "Synthetic receipt fixture. It does not report a live evaluation or instruct execution.",
+  "limitations": [
+    "Synthetic schema fixture; no evaluator was executed."
+  ],
+  "signature": {
+    "profile": "local-unsigned-development",
+    "keyId": "urn:fenrua:key:local-unsigned-development",
+    "payloadDigest": {
+      "algorithm": "sha-256",
+      "value": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    }
+  },
+  "unexpectedTopLevelField": true
+}

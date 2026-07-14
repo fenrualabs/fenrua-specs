@@ -1,0 +1,32 @@
+{
+  "schemaVersion": "fenrua.audit-event.v1",
+  "eventId": "urn:fenrua:audit-event:demo-001",
+  "scope": {
+    "tenantId": "urn:fenrua:tenant:demo",
+    "environmentId": "urn:fenrua:environment:development"
+  },
+  "sequence": "1",
+  "eventType": "decision.recorded",
+  "occurredAt": "2026-07-14T00:00:00.000Z",
+  "actorId": "urn:fenrua:actor:demo-operator",
+  "subjectId": "urn:fenrua:entity:demo-agent",
+  "correlationId": "fixture-correlation-0001",
+  "payloadDigest": {
+    "algorithm": "sha-256",
+    "value": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "eventDigest": {
+    "algorithm": "sha-256",
+    "value": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "dataClassification": "public",
+  "signature": {
+    "profile": "local-unsigned-development",
+    "keyId": "urn:fenrua:key:local-unsigned-development",
+    "payloadDigest": {
+      "algorithm": "sha-256",
+      "value": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    }
+  },
+  "unexpectedTopLevelField": true
+}

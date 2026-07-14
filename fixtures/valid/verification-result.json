@@ -1,0 +1,48 @@
+{
+  "schemaVersion": "fenrua.verification-result.v1",
+  "verificationId": "urn:fenrua:verification:demo-001",
+  "scope": {
+    "tenantId": "urn:fenrua:tenant:demo",
+    "environmentId": "urn:fenrua:environment:development"
+  },
+  "target": {
+    "evidenceBundleId": "urn:fenrua:evidence-bundle:demo-001",
+    "digest": {
+      "algorithm": "sha-256",
+      "value": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    "createdAt": "2026-07-14T00:00:00.000Z"
+  },
+  "verifier": {
+    "verifierId": "urn:fenrua:verifier:independent-fixture",
+    "version": "0.1.0",
+    "profile": "local-unsigned-development"
+  },
+  "verificationState": "PASS_WITH_LIMITATIONS",
+  "findings": [
+    {
+      "code": "SYNTHETIC_FIXTURE",
+      "severity": "info",
+      "message": "This document is a schema fixture only."
+    }
+  ],
+  "checkedAt": "2026-07-14T00:00:00.000Z",
+  "expiresAt": "2026-07-14T00:05:00.000Z",
+  "inputDigest": {
+    "algorithm": "sha-256",
+    "value": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "evidenceDigest": {
+    "algorithm": "sha-256",
+    "value": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "limitations": ["Verification state does not authorise execution."],
+  "signature": {
+    "profile": "local-unsigned-development",
+    "keyId": "urn:fenrua:key:local-unsigned-development",
+    "payloadDigest": {
+      "algorithm": "sha-256",
+      "value": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    }
+  }
+}

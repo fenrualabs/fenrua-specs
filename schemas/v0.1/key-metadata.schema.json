@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:fenrua:schema:key-metadata-v1",
+  "title": "Fenrua key metadata v1",
+  "description": "Public metadata only. Private key material is prohibited.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "keyId",
+    "scope",
+    "ownerId",
+    "algorithm",
+    "signatureProfiles",
+    "lifecycle",
+    "createdAt",
+    "activatedAt",
+    "expiresAt",
+    "publicKeyDigest",
+    "evidenceRefs",
+    "signature"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "fenrua.key-metadata.v1" },
+    "keyId": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/KeyId" },
+    "scope": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/Scope" },
+    "ownerId": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/Identifier" },
+    "algorithm": { "enum": ["ed25519", "p-256", "enterprise-provider"] },
+    "signatureProfiles": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 3,
+      "uniqueItems": true,
+      "items": { "enum": ["ed25519-v1", "p256-v1", "enterprise-provider-v1"] }
+    },
+    "lifecycle": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/Lifecycle" },
+    "createdAt": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/UtcDateTimeMillis" },
+    "activatedAt": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/UtcDateTimeMillis" },
+    "expiresAt": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/UtcDateTimeMillis" },
+    "publicKeyDigest": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/Digest" },
+    "evidenceRefs": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 32,
+      "items": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/EvidenceReference" }
+    },
+    "signature": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/Signature" }
+  }
+}

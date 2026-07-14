@@ -1,0 +1,621 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:fenrua:schema:shared-definitions-v1",
+  "title": "Fenrua v0.1 shared strict definitions",
+  "description": "Internal shared vocabulary for the v0.1 schema registry. This document is not an accepted top-level Trust Gate input or output.",
+  "$defs": {
+    "Identifier": {
+      "type": "string",
+      "minLength": 14,
+      "maxLength": 160,
+      "pattern": "^urn:fenrua:[a-z][a-z0-9-]{0,31}:[a-z0-9][a-z0-9-]{0,95}$"
+    },
+    "TenantId": {
+      "type": "string",
+      "minLength": 19,
+      "maxLength": 116,
+      "pattern": "^urn:fenrua:tenant:[a-z0-9][a-z0-9-]{0,95}$"
+    },
+    "EnvironmentId": {
+      "type": "string",
+      "minLength": 24,
+      "maxLength": 121,
+      "pattern": "^urn:fenrua:environment:[a-z0-9][a-z0-9-]{0,95}$"
+    },
+    "EntityId": {
+      "type": "string",
+      "minLength": 19,
+      "maxLength": 116,
+      "pattern": "^urn:fenrua:entity:[a-z0-9][a-z0-9-]{0,95}$"
+    },
+    "PolicyId": {
+      "type": "string",
+      "minLength": 19,
+      "maxLength": 116,
+      "pattern": "^urn:fenrua:policy:[a-z0-9][a-z0-9-]{0,95}$"
+    },
+    "KeyId": {
+      "type": "string",
+      "minLength": 16,
+      "maxLength": 113,
+      "pattern": "^urn:fenrua:key:[a-z0-9][a-z0-9-]{0,95}$"
+    },
+    "Revision": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 9,
+      "pattern": "^[1-9][0-9]{0,8}$"
+    },
+    "Semver": {
+      "type": "string",
+      "minLength": 5,
+      "maxLength": 32,
+      "pattern": "^(0|[1-9][0-9]{0,8})\\.(0|[1-9][0-9]{0,8})\\.(0|[1-9][0-9]{0,8})(?:-[0-9A-Za-z-]{1,16}(?:\\.[0-9A-Za-z-]{1,16}){0,3})?$"
+    },
+    "UtcDateTimeMillis": {
+      "type": "string",
+      "minLength": 24,
+      "maxLength": 24,
+      "format": "date-time",
+      "pattern": "^[0-9]{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12][0-9]|3[01])T(?:[01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]\\.[0-9]{3}Z$"
+    },
+    "Token": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64,
+      "pattern": "^[a-z][a-z0-9-]{0,63}$"
+    },
+    "Action": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 96,
+      "pattern": "^[a-z][a-z0-9-]{0,31}(?:\\.[a-z][a-z0-9-]{0,31}){1,2}$"
+    },
+    "Resource": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,255}$"
+    },
+    "ShortText": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "pattern": "^[^\\u0000-\\u001F\\u007F]{1,256}$"
+    },
+    "LongText": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 2048,
+      "pattern": "^[^\\u0000-\\u001F\\u007F]{1,2048}$"
+    },
+    "Base64Url": {
+      "type": "string",
+      "minLength": 8,
+      "maxLength": 4096,
+      "pattern": "^[A-Za-z0-9_-]+$"
+    },
+    "Digest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["algorithm", "value"],
+      "properties": {
+        "algorithm": {
+          "const": "sha-256"
+        },
+        "value": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64,
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      }
+    },
+    "Scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["tenantId", "environmentId"],
+      "properties": {
+        "tenantId": {
+          "$ref": "#/$defs/TenantId"
+        },
+        "environmentId": {
+          "$ref": "#/$defs/EnvironmentId"
+        }
+      }
+    },
+    "Lifecycle": {
+      "type": "string",
+      "enum": ["draft", "active", "superseded", "retired", "revoked"]
+    },
+    "DataClassification": {
+      "type": "string",
+      "enum": ["public", "internal", "confidential", "restricted"]
+    },
+    "SignatureProfile": {
+      "type": "string",
+      "enum": [
+        "local-unsigned-development",
+        "ed25519-v1",
+        "p256-v1",
+        "enterprise-provider-v1"
+      ]
+    },
+    "Signature": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["profile", "keyId", "payloadDigest"],
+          "properties": {
+            "profile": {
+              "const": "local-unsigned-development"
+            },
+            "keyId": {
+              "const": "urn:fenrua:key:local-unsigned-development"
+            },
+            "payloadDigest": {
+              "$ref": "#/$defs/Digest"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["profile", "keyId", "payloadDigest", "value"],
+          "properties": {
+            "profile": {
+              "enum": ["ed25519-v1", "p256-v1", "enterprise-provider-v1"]
+            },
+            "keyId": {
+              "$ref": "#/$defs/KeyId"
+            },
+            "payloadDigest": {
+              "$ref": "#/$defs/Digest"
+            },
+            "value": {
+              "$ref": "#/$defs/Base64Url"
+            }
+          }
+        }
+      ]
+    },
+    "EvidenceReference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["evidenceBundleId", "digest", "createdAt"],
+      "properties": {
+        "evidenceBundleId": {
+          "type": "string",
+          "minLength": 28,
+          "maxLength": 125,
+          "pattern": "^urn:fenrua:evidence-bundle:[a-z0-9][a-z0-9-]{0,95}$"
+        },
+        "digest": {
+          "$ref": "#/$defs/Digest"
+        },
+        "createdAt": {
+          "$ref": "#/$defs/UtcDateTimeMillis"
+        }
+      }
+    },
+    "ArtifactRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["artifactId", "scope", "revision", "digest", "effectiveAt", "evidenceRefs"],
+      "properties": {
+        "artifactId": {
+          "type": "string",
+          "minLength": 21,
+          "maxLength": 118,
+          "pattern": "^urn:fenrua:artifact:[a-z0-9][a-z0-9-]{0,95}$"
+        },
+        "scope": {
+          "$ref": "#/$defs/Scope"
+        },
+        "revision": {
+          "$ref": "#/$defs/Revision"
+        },
+        "digest": {
+          "$ref": "#/$defs/Digest"
+        },
+        "effectiveAt": {
+          "$ref": "#/$defs/UtcDateTimeMillis"
+        },
+        "evidenceRefs": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 32,
+          "items": {
+            "$ref": "#/$defs/EvidenceReference"
+          }
+        }
+      }
+    },
+    "PolicyRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["policyId", "scope", "revision", "digest", "effectiveAt", "evidenceRefs"],
+      "properties": {
+        "policyId": {
+          "$ref": "#/$defs/PolicyId"
+        },
+        "scope": {
+          "$ref": "#/$defs/Scope"
+        },
+        "revision": {
+          "$ref": "#/$defs/Revision"
+        },
+        "digest": {
+          "$ref": "#/$defs/Digest"
+        },
+        "effectiveAt": {
+          "$ref": "#/$defs/UtcDateTimeMillis"
+        },
+        "evidenceRefs": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 32,
+          "items": {
+            "$ref": "#/$defs/EvidenceReference"
+          }
+        }
+      }
+    },
+    "ApprovalRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["approvalId", "requestDigest", "expiresAt"],
+      "properties": {
+        "approvalId": {
+          "type": "string",
+          "minLength": 21,
+          "maxLength": 118,
+          "pattern": "^urn:fenrua:approval:[a-z0-9][a-z0-9-]{0,95}$"
+        },
+        "requestDigest": {
+          "$ref": "#/$defs/Digest"
+        },
+        "expiresAt": {
+          "$ref": "#/$defs/UtcDateTimeMillis"
+        }
+      }
+    },
+    "DecisionRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["decisionId", "digest", "issuedAt"],
+      "properties": {
+        "decisionId": {
+          "type": "string",
+          "minLength": 21,
+          "maxLength": 118,
+          "pattern": "^urn:fenrua:decision:[a-z0-9][a-z0-9-]{0,95}$"
+        },
+        "digest": {
+          "$ref": "#/$defs/Digest"
+        },
+        "issuedAt": {
+          "$ref": "#/$defs/UtcDateTimeMillis"
+        }
+      }
+    },
+    "DocumentRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["documentId", "schemaId", "digest"],
+      "properties": {
+        "documentId": {
+          "$ref": "#/$defs/Identifier"
+        },
+        "schemaId": {
+          "$ref": "#/$defs/SchemaId"
+        },
+        "digest": {
+          "$ref": "#/$defs/Digest"
+        }
+      }
+    },
+    "AuditEventRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["eventId", "digest", "occurredAt"],
+      "properties": {
+        "eventId": {
+          "type": "string",
+          "minLength": 24,
+          "maxLength": 121,
+          "pattern": "^urn:fenrua:audit-event:[a-z0-9][a-z0-9-]{0,95}$"
+        },
+        "digest": {
+          "$ref": "#/$defs/Digest"
+        },
+        "occurredAt": {
+          "$ref": "#/$defs/UtcDateTimeMillis"
+        }
+      }
+    },
+    "RevocationSetRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["revocationSetId", "scope", "sequence", "issuedAt", "expiresAt", "digest"],
+      "properties": {
+        "revocationSetId": {
+          "type": "string",
+          "minLength": 27,
+          "maxLength": 124,
+          "pattern": "^urn:fenrua:revocation-set:[a-z0-9][a-z0-9-]{0,95}$"
+        },
+        "scope": {
+          "$ref": "#/$defs/Scope"
+        },
+        "sequence": {
+          "$ref": "#/$defs/Revision"
+        },
+        "issuedAt": {
+          "$ref": "#/$defs/UtcDateTimeMillis"
+        },
+        "expiresAt": {
+          "$ref": "#/$defs/UtcDateTimeMillis"
+        },
+        "digest": {
+          "$ref": "#/$defs/Digest"
+        }
+      }
+    },
+    "RuntimeRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["runtimeId", "profile", "digest"],
+      "properties": {
+        "runtimeId": {
+          "$ref": "#/$defs/Identifier"
+        },
+        "profile": {
+          "$ref": "#/$defs/Token"
+        },
+        "digest": {
+          "$ref": "#/$defs/Digest"
+        }
+      }
+    },
+    "KeyValue": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["key", "value"],
+      "properties": {
+        "key": {
+          "$ref": "#/$defs/Token"
+        },
+        "value": {
+          "$ref": "#/$defs/ShortText"
+        }
+      }
+    },
+    "Context": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["contextId", "audience", "bindings"],
+      "properties": {
+        "contextId": {
+          "$ref": "#/$defs/Identifier"
+        },
+        "audience": {
+          "$ref": "#/$defs/Identifier"
+        },
+        "bindings": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 32,
+          "items": {
+            "$ref": "#/$defs/KeyValue"
+          }
+        }
+      }
+    },
+    "TimeWindow": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["notBefore", "notAfter"],
+      "properties": {
+        "notBefore": {
+          "$ref": "#/$defs/UtcDateTimeMillis"
+        },
+        "notAfter": {
+          "$ref": "#/$defs/UtcDateTimeMillis"
+        }
+      }
+    },
+    "Selector": {
+      "type": "object",
+      "additionalProperties": false,
+      "minProperties": 1,
+      "properties": {
+        "ids": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 64,
+          "items": {
+            "$ref": "#/$defs/Identifier"
+          }
+        },
+        "entityTypes": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 16,
+          "items": {
+            "enum": ["organisation", "operator", "workload", "agent", "model", "tool", "artifact", "deployment"]
+          }
+        },
+        "labels": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 16,
+          "items": {
+            "$ref": "#/$defs/KeyValue"
+          }
+        }
+      }
+    },
+    "ApprovalRequirement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["approvalType", "minimumCount"],
+      "properties": {
+        "approvalType": {
+          "$ref": "#/$defs/Token"
+        },
+        "minimumCount": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 16
+        }
+      }
+    },
+    "Obligation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["code", "description"],
+      "properties": {
+        "code": {
+          "$ref": "#/$defs/Token"
+        },
+        "description": {
+          "$ref": "#/$defs/ShortText"
+        }
+      }
+    },
+    "ReasonCode": {
+      "type": "string",
+      "enum": [
+        "ALLOW_POLICY_MATCH",
+        "DENY_EXPLICIT",
+        "DENY_NO_MATCH",
+        "DENY_MISSING_IDENTITY",
+        "DENY_INVALID_IDENTITY",
+        "DENY_SIGNATURE_INVALID",
+        "DENY_POLICY_EXPIRED",
+        "DENY_POLICY_REVOKED",
+        "DENY_SUBJECT_REVOKED",
+        "DENY_ARTIFACT_REVOKED",
+        "DENY_KEY_REVOKED",
+        "DENY_STALE_REVOCATION_STATE",
+        "DENY_AUDIENCE_MISMATCH",
+        "DENY_CONTEXT_MISMATCH",
+        "DENY_INTEGRITY_MISMATCH",
+        "DENY_MISSING_APPROVAL",
+        "DENY_UNSUPPORTED_SCHEMA",
+        "DENY_AMBIGUOUS_POLICY",
+        "DENY_REPLAY",
+        "DENY_UNSUPPORTED_ENVIRONMENT",
+        "DENY_FAIL_CLOSED"
+      ]
+    },
+    "VerificationState": {
+      "type": "string",
+      "enum": [
+        "PASS",
+        "PASS_WITH_LIMITATIONS",
+        "INCOMPLETE",
+        "STALE",
+        "POLICY_VIOLATION",
+        "INTEGRITY_MISMATCH",
+        "SIGNATURE_INVALID",
+        "RUNTIME_UNVERIFIED",
+        "REVOKED",
+        "FAIL_CLOSED",
+        "UNSUPPORTED_SCHEMA",
+        "ERROR"
+      ]
+    },
+    "Finding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["code", "severity", "message"],
+      "properties": {
+        "code": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 80,
+          "pattern": "^[A-Z][A-Z0-9_]{2,79}$"
+        },
+        "severity": {
+          "enum": ["critical", "high", "medium", "low", "info"]
+        },
+        "message": {
+          "$ref": "#/$defs/ShortText"
+        },
+        "documentId": {
+          "$ref": "#/$defs/Identifier"
+        }
+      }
+    },
+    "Limitation": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "pattern": "^[^\\u0000-\\u001F\\u007F]{1,256}$"
+    },
+    "Revocation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["revocationId", "targetId", "targetType", "reasonCode", "effectiveAt", "evidenceRefs"],
+      "properties": {
+        "revocationId": {
+          "type": "string",
+          "minLength": 23,
+          "maxLength": 120,
+          "pattern": "^urn:fenrua:revocation:[a-z0-9][a-z0-9-]{0,95}$"
+        },
+        "targetId": {
+          "$ref": "#/$defs/Identifier"
+        },
+        "targetType": {
+          "enum": ["policy", "subject", "artifact", "key", "approval", "request"]
+        },
+        "reasonCode": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 80,
+          "pattern": "^[A-Z][A-Z0-9_]{2,79}$"
+        },
+        "effectiveAt": {
+          "$ref": "#/$defs/UtcDateTimeMillis"
+        },
+        "evidenceRefs": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 32,
+          "items": {
+            "$ref": "#/$defs/EvidenceReference"
+          }
+        }
+      }
+    },
+    "SchemaId": {
+      "type": "string",
+      "enum": [
+        "urn:fenrua:schema:entity-manifest-v1",
+        "urn:fenrua:schema:authority-policy-v1",
+        "urn:fenrua:schema:tool-call-request-v1",
+        "urn:fenrua:schema:approval-v1",
+        "urn:fenrua:schema:revocation-set-v1",
+        "urn:fenrua:schema:decision-v1",
+        "urn:fenrua:schema:evidence-bundle-v1",
+        "urn:fenrua:schema:receipt-v1",
+        "urn:fenrua:schema:verification-result-v1",
+        "urn:fenrua:schema:key-metadata-v1",
+        "urn:fenrua:schema:key-rotation-v1",
+        "urn:fenrua:schema:audit-event-v1",
+        "urn:fenrua:schema:compatibility-profile-v1",
+        "urn:fenrua:schema:verification-vector-v1"
+      ]
+    },
+    "FixturePath": {
+      "type": "string",
+      "minLength": 20,
+      "maxLength": 160,
+      "pattern": "^fixtures/(?:valid|invalid)/[a-z0-9][a-z0-9._-]{0,119}\\.json$"
+    }
+  }
+}

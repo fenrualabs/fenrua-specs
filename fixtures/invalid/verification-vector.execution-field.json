@@ -1,0 +1,39 @@
+{
+  "schemaVersion": "fenrua.verification-vector.v1",
+  "vectorId": "urn:fenrua:verification-vector:simple-allow",
+  "title": "Synthetic simple allow conformance vector",
+  "scenarioClass": "positive",
+  "targetProfileId": "urn:fenrua:compatibility-profile:v0-1",
+  "documents": [
+    {
+      "role": "authority-policy",
+      "schemaId": "urn:fenrua:schema:authority-policy-v1",
+      "fixture": "fixtures/valid/authority-policy.json",
+      "fixtureDigest": {
+        "algorithm": "sha-256",
+        "value": "7590a13fd5191d9b7579306864b30d8791ba18e9f14511daf7eedfaa9d27304f"
+      }
+    },
+    {
+      "role": "tool-call-request",
+      "schemaId": "urn:fenrua:schema:tool-call-request-v1",
+      "fixture": "fixtures/valid/tool-call-request.json",
+      "fixtureDigest": {
+        "algorithm": "sha-256",
+        "value": "b5c9b95be727e1e53ee3bbb78bef51e9b8da13e859362a1d1480cd5d4ebb0e5c"
+      }
+    }
+  ],
+  "expected": {
+    "schemaValidation": "VALID",
+    "expectedDecision": "ALLOW",
+    "expectedReasonCodes": [
+      "ALLOW_POLICY_MATCH"
+    ],
+    "expectedVerificationState": "PASS"
+  },
+  "limitations": [
+    "Test metadata only; it is not an evaluator output or execution instruction."
+  ],
+  "continueExecution": true
+}

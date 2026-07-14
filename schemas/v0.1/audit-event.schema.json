@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:fenrua:schema:audit-event-v1",
+  "title": "Fenrua audit event v1",
+  "description": "Append-only event metadata. Payloads are represented by digests, not raw sensitive data.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "eventId",
+    "scope",
+    "sequence",
+    "eventType",
+    "occurredAt",
+    "actorId",
+    "subjectId",
+    "correlationId",
+    "payloadDigest",
+    "eventDigest",
+    "dataClassification",
+    "signature"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "fenrua.audit-event.v1" },
+    "eventId": {
+      "type": "string",
+      "minLength": 24,
+      "maxLength": 121,
+      "pattern": "^urn:fenrua:audit-event:[a-z0-9][a-z0-9-]{0,95}$"
+    },
+    "scope": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/Scope" },
+    "sequence": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/Revision" },
+    "eventType": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/Action" },
+    "occurredAt": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/UtcDateTimeMillis" },
+    "actorId": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/Identifier" },
+    "subjectId": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/Identifier" },
+    "correlationId": {
+      "type": "string",
+      "minLength": 16,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9_-]{16,128}$"
+    },
+    "payloadDigest": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/Digest" },
+    "eventDigest": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/Digest" },
+    "previousEventDigest": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/Digest" },
+    "dataClassification": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/DataClassification" },
+    "signature": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/Signature" }
+  }
+}

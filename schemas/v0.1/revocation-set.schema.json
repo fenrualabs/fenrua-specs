@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:fenrua:schema:revocation-set-v1",
+  "title": "Fenrua revocation set v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "revocationSetId",
+    "scope",
+    "sequence",
+    "issuerId",
+    "issuedAt",
+    "effectiveAt",
+    "expiresAt",
+    "nextUpdateAt",
+    "revocations",
+    "integrity",
+    "signature"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "fenrua.revocation-set.v1" },
+    "revocationSetId": {
+      "type": "string",
+      "minLength": 27,
+      "maxLength": 124,
+      "pattern": "^urn:fenrua:revocation-set:[a-z0-9][a-z0-9-]{0,95}$"
+    },
+    "scope": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/Scope" },
+    "sequence": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/Revision" },
+    "issuerId": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/Identifier" },
+    "issuedAt": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/UtcDateTimeMillis" },
+    "effectiveAt": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/UtcDateTimeMillis" },
+    "expiresAt": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/UtcDateTimeMillis" },
+    "nextUpdateAt": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/UtcDateTimeMillis" },
+    "revocations": {
+      "type": "array",
+      "maxItems": 4096,
+      "items": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/Revocation" }
+    },
+    "integrity": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/Digest" },
+    "signature": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/Signature" }
+  }
+}

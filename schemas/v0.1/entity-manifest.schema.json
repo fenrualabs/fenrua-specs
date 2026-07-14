@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:fenrua:schema:entity-manifest-v1",
+  "title": "Fenrua entity manifest v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "manifestId",
+    "subjectId",
+    "ownerId",
+    "scope",
+    "entityType",
+    "lifecycle",
+    "revision",
+    "issuedAt",
+    "expiresAt",
+    "integrity",
+    "evidenceRefs",
+    "signature"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "fenrua.entity-manifest.v1" },
+    "manifestId": {
+      "type": "string",
+      "minLength": 28,
+      "maxLength": 125,
+      "pattern": "^urn:fenrua:entity-manifest:[a-z0-9][a-z0-9-]{0,95}$"
+    },
+    "subjectId": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/EntityId" },
+    "ownerId": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/Identifier" },
+    "scope": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/Scope" },
+    "entityType": {
+      "enum": ["organisation", "operator", "workload", "agent", "model", "tool", "artifact", "deployment"]
+    },
+    "displayName": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/ShortText" },
+    "lifecycle": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/Lifecycle" },
+    "revision": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/Revision" },
+    "issuedAt": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/UtcDateTimeMillis" },
+    "expiresAt": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/UtcDateTimeMillis" },
+    "declaredCapabilities": {
+      "type": "array",
+      "maxItems": 64,
+      "items": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/Action" }
+    },
+    "artifacts": {
+      "type": "array",
+      "maxItems": 64,
+      "items": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/ArtifactRef" }
+    },
+    "integrity": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/Digest" },
+    "dataClassification": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/DataClassification" },
+    "evidenceRefs": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 32,
+      "items": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/EvidenceReference" }
+    },
+    "supersedes": {
+      "type": "string",
+      "minLength": 28,
+      "maxLength": 125,
+      "pattern": "^urn:fenrua:entity-manifest:[a-z0-9][a-z0-9-]{0,95}$"
+    },
+    "signature": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/Signature" }
+  }
+}
