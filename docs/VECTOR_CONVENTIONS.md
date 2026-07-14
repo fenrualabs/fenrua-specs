@@ -21,6 +21,6 @@ customer inputs, credentials, secret material, or live-service observations.
 
 `fenrua.verification-vector.v1` is immutable and only binds the v1 schema IDs
 enumerated by its closed contract. It does not bind
-`fenrua.authority-policy.v2`; a vector that covers the v2 Authority Policy
-requires a new exact vector schema/profile rather than injecting a v2 document
-into a v1 vector.
+`fenrua.authority-policy.v2` or `fenrua.evidence-bundle.v2`; a vector that
+covers the local v2 provenance family requires a new exact vector
+schema/profile rather than injecting a v2 document into a v1 vector.

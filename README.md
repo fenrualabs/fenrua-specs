@@ -13,9 +13,10 @@ production cryptographic profile.
 - `schemas/v0.1/` is the immutable R1 baseline: its registry records 13
   protocol schemas and the test-only `fenrua.verification-vector.v1` schema,
   and its shared definitions hold bounded vocabulary.
-- `schemas/v0.2/registry.json` retains those exact v1 entries and adds
-  `fenrua.authority-policy.v2` at
-  `urn:fenrua:schema:authority-policy-v2`.
+- `schemas/v0.2/registry.json` retains those exact v1 entries and adds the
+  paired local provenance schemas `fenrua.authority-policy.v2` and
+  `fenrua.evidence-bundle.v2`. The latter can reference the v2 policy without
+  altering the frozen v1 document-reference vocabulary.
 - `fixtures/` contains synthetic positive and negative conformance material.
 - `scripts/` provides deterministic local strict-JSON and schema validation.
 

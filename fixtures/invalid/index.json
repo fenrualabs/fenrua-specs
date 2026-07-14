@@ -12,6 +12,7 @@
     { "file": "duplicate-key.json", "kind": "strict-json-error" },
     { "file": "entity-manifest.unknown-top-level.json", "schemaVersion": "fenrua.entity-manifest.v1", "kind": "schema-invalid" },
     { "file": "evidence-bundle.unknown-top-level.json", "schemaVersion": "fenrua.evidence-bundle.v1", "kind": "schema-invalid" },
+    { "file": "evidence-bundle-v2.unknown-document-schema.json", "schemaVersion": "fenrua.evidence-bundle.v2", "kind": "schema-invalid", "expectedKeyword": "enum" },
     { "file": "key-metadata.unknown-top-level.json", "schemaVersion": "fenrua.key-metadata.v1", "kind": "schema-invalid" },
     { "file": "key-rotation.unknown-top-level.json", "schemaVersion": "fenrua.key-rotation.v1", "kind": "schema-invalid" },
     { "file": "receipt.unknown-top-level.json", "schemaVersion": "fenrua.receipt.v1", "kind": "schema-invalid" },

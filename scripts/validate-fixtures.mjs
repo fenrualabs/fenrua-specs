@@ -29,6 +29,8 @@ assert.deepEqual([...fixtureVersions].sort(), [...registryVersions].sort(), "Can
 
 const authorityPolicyV1 = readStrictJson(resolve(validRoot, "authority-policy.json"));
 const authorityPolicyV2 = readStrictJson(resolve(validRoot, "authority-policy-v2.json"));
+const evidenceBundleV1 = readStrictJson(resolve(validRoot, "evidence-bundle.json"));
+const evidenceBundleV2 = readStrictJson(resolve(validRoot, "evidence-bundle-v2.json"));
 const toolCallRequest = readStrictJson(resolve(validRoot, "tool-call-request.json"));
 assert.equal(Object.hasOwn(authorityPolicyV1.rules[0], "contextSelector"), false, "Authority Policy v1 fixture must remain selector-free");
 assert.deepEqual(
@@ -49,6 +51,16 @@ assert.equal(
   validateByVersion(context, authorityPolicyV2UnknownContextField.schemaVersion, authorityPolicyV2UnknownContextField).valid,
   false,
   "Authority Policy v2 contextSelector must reject unknown fields"
+);
+assert.equal(
+  evidenceBundleV1.inputs.some((input) => input.schemaId === "urn:fenrua:schema:authority-policy-v2"),
+  false,
+  "Evidence Bundle v1 fixture must remain within its frozen provenance vocabulary"
+);
+assert.equal(
+  evidenceBundleV2.inputs.some((input) => input.schemaId === "urn:fenrua:schema:authority-policy-v2"),
+  true,
+  "Evidence Bundle v2 must be able to prove Authority Policy v2 provenance"
 );
 
 const compatibilityProfile = readStrictJson(resolve(validRoot, "compatibility-profile.json"));

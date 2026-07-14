@@ -104,6 +104,12 @@
       "$id": "urn:fenrua:schema:authority-policy-v2",
       "path": "schemas/v0.2/authority-policy.schema.json",
       "role": "input"
+    },
+    {
+      "schemaVersion": "fenrua.evidence-bundle.v2",
+      "$id": "urn:fenrua:schema:evidence-bundle-v2",
+      "path": "schemas/v0.2/evidence-bundle.schema.json",
+      "role": "output"
     }
   ]
 }
