@@ -110,6 +110,18 @@
       "$id": "urn:fenrua:schema:evidence-bundle-v2",
       "path": "schemas/v0.2/evidence-bundle.schema.json",
       "role": "output"
+    },
+    {
+      "schemaVersion": "fenrua.compatibility-profile.v2",
+      "$id": "urn:fenrua:schema:compatibility-profile-v2",
+      "path": "schemas/v0.2/compatibility-profile.schema.json",
+      "role": "input"
+    },
+    {
+      "schemaVersion": "fenrua.verification-vector.v2",
+      "$id": "urn:fenrua:schema:verification-vector-v2",
+      "path": "schemas/v0.2/verification-vector.schema.json",
+      "role": "test-only-non-output"
     }
   ]
 }

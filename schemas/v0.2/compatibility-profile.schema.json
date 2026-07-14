@@ -1,0 +1,156 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:fenrua:schema:compatibility-profile-v2",
+  "title": "Fenrua compatibility profile v2",
+  "description": "Closed local v2 compatibility tuple. It does not create a released implementation, support commitment, or execution authorisation.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "profileId",
+    "scope",
+    "revision",
+    "lifecycle",
+    "issuedAt",
+    "expiresAt",
+    "canonicalizationProfile",
+    "schemaBindings",
+    "signingProfiles",
+    "implementationSurfaces",
+    "downgradePolicy",
+    "signature"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "fenrua.compatibility-profile.v2" },
+    "profileId": {
+      "type": "string",
+      "minLength": 35,
+      "maxLength": 132,
+      "pattern": "^urn:fenrua:compatibility-profile:[a-z0-9][a-z0-9-]{0,95}$"
+    },
+    "scope": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/Scope" },
+    "revision": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/Revision" },
+    "lifecycle": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/Lifecycle" },
+    "issuedAt": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/UtcDateTimeMillis" },
+    "expiresAt": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/UtcDateTimeMillis" },
+    "canonicalizationProfile": {
+      "type": "string",
+      "minLength": 8,
+      "maxLength": 64,
+      "pattern": "^fenrua-c14n-v[1-9][0-9]{0,2}$"
+    },
+    "schemaBindings": {
+      "type": "array",
+      "minItems": 16,
+      "maxItems": 18,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/SchemaBinding" }
+    },
+    "signingProfiles": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 4,
+      "uniqueItems": true,
+      "items": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/SignatureProfile" }
+    },
+    "implementationSurfaces": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 4,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/ImplementationSurface" }
+    },
+    "downgradePolicy": { "const": "forbidden-by-default" },
+    "signature": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/Signature" },
+    "supersedes": {
+      "type": "string",
+      "minLength": 35,
+      "maxLength": 132,
+      "pattern": "^urn:fenrua:compatibility-profile:[a-z0-9][a-z0-9-]{0,95}$"
+    }
+  },
+  "allOf": [
+    { "properties": { "schemaBindings": { "type": "array", "contains": { "type": "object", "properties": { "schemaVersion": { "const": "fenrua.entity-manifest.v1" } }, "required": ["schemaVersion"] }, "minContains": 1, "maxContains": 1 } }, "required": ["schemaBindings"] },
+    { "properties": { "schemaBindings": { "type": "array", "contains": { "type": "object", "properties": { "schemaVersion": { "const": "fenrua.authority-policy.v1" } }, "required": ["schemaVersion"] }, "minContains": 1, "maxContains": 1 } }, "required": ["schemaBindings"] },
+    { "properties": { "schemaBindings": { "type": "array", "contains": { "type": "object", "properties": { "schemaVersion": { "const": "fenrua.authority-policy.v2" } }, "required": ["schemaVersion"] }, "minContains": 1, "maxContains": 1 } }, "required": ["schemaBindings"] },
+    { "properties": { "schemaBindings": { "type": "array", "contains": { "type": "object", "properties": { "schemaVersion": { "const": "fenrua.tool-call-request.v1" } }, "required": ["schemaVersion"] }, "minContains": 1, "maxContains": 1 } }, "required": ["schemaBindings"] },
+    { "properties": { "schemaBindings": { "type": "array", "contains": { "type": "object", "properties": { "schemaVersion": { "const": "fenrua.approval.v1" } }, "required": ["schemaVersion"] }, "minContains": 1, "maxContains": 1 } }, "required": ["schemaBindings"] },
+    { "properties": { "schemaBindings": { "type": "array", "contains": { "type": "object", "properties": { "schemaVersion": { "const": "fenrua.revocation-set.v1" } }, "required": ["schemaVersion"] }, "minContains": 1, "maxContains": 1 } }, "required": ["schemaBindings"] },
+    { "properties": { "schemaBindings": { "type": "array", "contains": { "type": "object", "properties": { "schemaVersion": { "const": "fenrua.decision.v1" } }, "required": ["schemaVersion"] }, "minContains": 1, "maxContains": 1 } }, "required": ["schemaBindings"] },
+    { "properties": { "schemaBindings": { "type": "array", "contains": { "type": "object", "properties": { "schemaVersion": { "const": "fenrua.evidence-bundle.v1" } }, "required": ["schemaVersion"] }, "minContains": 1, "maxContains": 1 } }, "required": ["schemaBindings"] },
+    { "properties": { "schemaBindings": { "type": "array", "contains": { "type": "object", "properties": { "schemaVersion": { "const": "fenrua.evidence-bundle.v2" } }, "required": ["schemaVersion"] }, "minContains": 1, "maxContains": 1 } }, "required": ["schemaBindings"] },
+    { "properties": { "schemaBindings": { "type": "array", "contains": { "type": "object", "properties": { "schemaVersion": { "const": "fenrua.receipt.v1" } }, "required": ["schemaVersion"] }, "minContains": 1, "maxContains": 1 } }, "required": ["schemaBindings"] },
+    { "properties": { "schemaBindings": { "type": "array", "contains": { "type": "object", "properties": { "schemaVersion": { "const": "fenrua.verification-result.v1" } }, "required": ["schemaVersion"] }, "minContains": 1, "maxContains": 1 } }, "required": ["schemaBindings"] },
+    { "properties": { "schemaBindings": { "type": "array", "contains": { "type": "object", "properties": { "schemaVersion": { "const": "fenrua.key-metadata.v1" } }, "required": ["schemaVersion"] }, "minContains": 1, "maxContains": 1 } }, "required": ["schemaBindings"] },
+    { "properties": { "schemaBindings": { "type": "array", "contains": { "type": "object", "properties": { "schemaVersion": { "const": "fenrua.key-rotation.v1" } }, "required": ["schemaVersion"] }, "minContains": 1, "maxContains": 1 } }, "required": ["schemaBindings"] },
+    { "properties": { "schemaBindings": { "type": "array", "contains": { "type": "object", "properties": { "schemaVersion": { "const": "fenrua.audit-event.v1" } }, "required": ["schemaVersion"] }, "minContains": 1, "maxContains": 1 } }, "required": ["schemaBindings"] },
+    { "properties": { "schemaBindings": { "type": "array", "contains": { "type": "object", "properties": { "schemaVersion": { "const": "fenrua.compatibility-profile.v1" } }, "required": ["schemaVersion"] }, "minContains": 1, "maxContains": 1 } }, "required": ["schemaBindings"] },
+    { "properties": { "schemaBindings": { "type": "array", "contains": { "type": "object", "properties": { "schemaVersion": { "const": "fenrua.compatibility-profile.v2" } }, "required": ["schemaVersion"] }, "minContains": 1, "maxContains": 1 } }, "required": ["schemaBindings"] },
+    { "properties": { "implementationSurfaces": { "type": "array", "contains": { "type": "object", "properties": { "surface": { "const": "core" } }, "required": ["surface"] }, "minContains": 1, "maxContains": 1 } }, "required": ["implementationSurfaces"] },
+    { "properties": { "implementationSurfaces": { "type": "array", "contains": { "type": "object", "properties": { "surface": { "const": "cli" } }, "required": ["surface"] }, "minContains": 1, "maxContains": 1 } }, "required": ["implementationSurfaces"] },
+    { "properties": { "implementationSurfaces": { "type": "array", "contains": { "type": "object", "properties": { "surface": { "const": "sdk" } }, "required": ["surface"] }, "minContains": 1, "maxContains": 1 } }, "required": ["implementationSurfaces"] },
+    { "properties": { "implementationSurfaces": { "type": "array", "contains": { "type": "object", "properties": { "surface": { "const": "api" } }, "required": ["surface"] }, "minContains": 1, "maxContains": 1 } }, "required": ["implementationSurfaces"] }
+  ],
+  "$defs": {
+    "SchemaBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schemaVersion", "schemaId"],
+      "properties": {
+        "schemaVersion": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "schemaId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        }
+      },
+      "oneOf": [
+        { "properties": { "schemaVersion": { "const": "fenrua.entity-manifest.v1" }, "schemaId": { "const": "urn:fenrua:schema:entity-manifest-v1" } } },
+        { "properties": { "schemaVersion": { "const": "fenrua.authority-policy.v1" }, "schemaId": { "const": "urn:fenrua:schema:authority-policy-v1" } } },
+        { "properties": { "schemaVersion": { "const": "fenrua.authority-policy.v2" }, "schemaId": { "const": "urn:fenrua:schema:authority-policy-v2" } } },
+        { "properties": { "schemaVersion": { "const": "fenrua.tool-call-request.v1" }, "schemaId": { "const": "urn:fenrua:schema:tool-call-request-v1" } } },
+        { "properties": { "schemaVersion": { "const": "fenrua.approval.v1" }, "schemaId": { "const": "urn:fenrua:schema:approval-v1" } } },
+        { "properties": { "schemaVersion": { "const": "fenrua.revocation-set.v1" }, "schemaId": { "const": "urn:fenrua:schema:revocation-set-v1" } } },
+        { "properties": { "schemaVersion": { "const": "fenrua.decision.v1" }, "schemaId": { "const": "urn:fenrua:schema:decision-v1" } } },
+        { "properties": { "schemaVersion": { "const": "fenrua.evidence-bundle.v1" }, "schemaId": { "const": "urn:fenrua:schema:evidence-bundle-v1" } } },
+        { "properties": { "schemaVersion": { "const": "fenrua.evidence-bundle.v2" }, "schemaId": { "const": "urn:fenrua:schema:evidence-bundle-v2" } } },
+        { "properties": { "schemaVersion": { "const": "fenrua.receipt.v1" }, "schemaId": { "const": "urn:fenrua:schema:receipt-v1" } } },
+        { "properties": { "schemaVersion": { "const": "fenrua.verification-result.v1" }, "schemaId": { "const": "urn:fenrua:schema:verification-result-v1" } } },
+        { "properties": { "schemaVersion": { "const": "fenrua.key-metadata.v1" }, "schemaId": { "const": "urn:fenrua:schema:key-metadata-v1" } } },
+        { "properties": { "schemaVersion": { "const": "fenrua.key-rotation.v1" }, "schemaId": { "const": "urn:fenrua:schema:key-rotation-v1" } } },
+        { "properties": { "schemaVersion": { "const": "fenrua.audit-event.v1" }, "schemaId": { "const": "urn:fenrua:schema:audit-event-v1" } } },
+        { "properties": { "schemaVersion": { "const": "fenrua.compatibility-profile.v1" }, "schemaId": { "const": "urn:fenrua:schema:compatibility-profile-v1" } } },
+        { "properties": { "schemaVersion": { "const": "fenrua.compatibility-profile.v2" }, "schemaId": { "const": "urn:fenrua:schema:compatibility-profile-v2" } } },
+        { "properties": { "schemaVersion": { "const": "fenrua.verification-vector.v1" }, "schemaId": { "const": "urn:fenrua:schema:verification-vector-v1" } } },
+        { "properties": { "schemaVersion": { "const": "fenrua.verification-vector.v2" }, "schemaId": { "const": "urn:fenrua:schema:verification-vector-v2" } } }
+      ]
+    },
+    "ImplementationSurface": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["surface", "state"],
+          "properties": {
+            "surface": { "enum": ["core", "cli", "sdk", "api"] },
+            "state": { "const": "not-released" }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["surface", "state", "version"],
+          "properties": {
+            "surface": { "enum": ["core", "cli", "sdk", "api"] },
+            "state": { "const": "supported" },
+            "version": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/Semver" }
+          }
+        }
+      ]
+    }
+  }
+}

@@ -15,8 +15,11 @@ production cryptographic profile.
   and its shared definitions hold bounded vocabulary.
 - `schemas/v0.2/registry.json` retains those exact v1 entries and adds the
   paired local provenance schemas `fenrua.authority-policy.v2` and
-  `fenrua.evidence-bundle.v2`. The latter can reference the v2 policy without
-  altering the frozen v1 document-reference vocabulary.
+  `fenrua.evidence-bundle.v2`, the closed 16-binding
+  `fenrua.compatibility-profile.v2`, and the test-only
+  `fenrua.verification-vector.v2`. These additive identities cover the local
+  v2 schema family without altering frozen v1 vocabulary or creating an
+  implementation release.
 - `fixtures/` contains synthetic positive and negative conformance material.
 - `scripts/` provides deterministic local strict-JSON and schema validation.
 

@@ -1,0 +1,9 @@
+{
+  "schemaVersion": "fenrua.compatibility-profile.v1",
+  "schemaBindings": [
+    {
+      "schemaVersion": "fenrua.authority-policy.v2",
+      "schemaId": "urn:fenrua:schema:authority-policy-v2"
+    }
+  ]
+}

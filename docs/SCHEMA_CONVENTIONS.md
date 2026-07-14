@@ -67,6 +67,20 @@ not widen the shared v1 `SchemaId` definition. This lets a v2 evidence bundle
 bind contextual-policy provenance while an Evidence Bundle v1 remains
 immutable and unable to name v2 documents.
 
+## Local v2 compatibility and vectors
+
+`fenrua.compatibility-profile.v2` is a closed 16-binding tuple. It requires
+the frozen v1 protocol identities plus Authority Policy v2, Evidence Bundle
+v2, and its own exact profile identity. The test-only vector identities are
+optional profile bindings and do not describe a runtime input, output, or
+release state.
+
+`fenrua.verification-vector.v2` owns a separate, bounded document vocabulary
+for the local v2 policy, evidence, and compatibility-profile IDs. It does not
+widen the v1 vector schema or its shared vocabulary. Its fixture digests bind
+synthetic source files only, not evaluator output, execution approval, or a
+production cryptographic assertion.
+
 ## Roles
 
 `fenrua.tool-call-request.v1` is an input. `fenrua.decision.v1`,

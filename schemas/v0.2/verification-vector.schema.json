@@ -1,0 +1,124 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:fenrua:schema:verification-vector-v2",
+  "title": "Fenrua verification vector v2",
+  "description": "Test-only local v2 conformance metadata. It is not an evaluator input, verifier output, authorisation decision, or execution instruction.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "vectorId",
+    "title",
+    "scenarioClass",
+    "targetProfileId",
+    "documents",
+    "expected",
+    "limitations"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "fenrua.verification-vector.v2" },
+    "vectorId": {
+      "type": "string",
+      "minLength": 31,
+      "maxLength": 128,
+      "pattern": "^urn:fenrua:verification-vector:[a-z0-9][a-z0-9-]{0,95}$"
+    },
+    "title": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/ShortText" },
+    "scenarioClass": { "enum": ["positive", "negative", "robustness"] },
+    "targetProfileId": {
+      "type": "string",
+      "minLength": 35,
+      "maxLength": 132,
+      "pattern": "^urn:fenrua:compatibility-profile:[a-z0-9][a-z0-9-]{0,95}$"
+    },
+    "documents": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 16,
+      "items": { "$ref": "#/$defs/VectorDocument" }
+    },
+    "expected": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schemaValidation", "expectedDecision", "expectedReasonCodes"],
+      "properties": {
+        "schemaValidation": { "enum": ["VALID", "INVALID"] },
+        "expectedDecision": { "enum": ["ALLOW", "DENY"] },
+        "expectedReasonCodes": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 32,
+          "items": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/ReasonCode" }
+        },
+        "expectedVerificationState": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/VerificationState" }
+      }
+    },
+    "limitations": {
+      "type": "array",
+      "maxItems": 32,
+      "items": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/Limitation" }
+    }
+  },
+  "$defs": {
+    "SchemaId": {
+      "type": "string",
+      "enum": [
+        "urn:fenrua:schema:entity-manifest-v1",
+        "urn:fenrua:schema:authority-policy-v1",
+        "urn:fenrua:schema:authority-policy-v2",
+        "urn:fenrua:schema:tool-call-request-v1",
+        "urn:fenrua:schema:approval-v1",
+        "urn:fenrua:schema:revocation-set-v1",
+        "urn:fenrua:schema:decision-v1",
+        "urn:fenrua:schema:evidence-bundle-v1",
+        "urn:fenrua:schema:evidence-bundle-v2",
+        "urn:fenrua:schema:receipt-v1",
+        "urn:fenrua:schema:verification-result-v1",
+        "urn:fenrua:schema:key-metadata-v1",
+        "urn:fenrua:schema:key-rotation-v1",
+        "urn:fenrua:schema:audit-event-v1",
+        "urn:fenrua:schema:compatibility-profile-v1",
+        "urn:fenrua:schema:compatibility-profile-v2"
+      ]
+    },
+    "VectorDocument": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["role", "schemaId", "fixture", "fixtureDigest"],
+      "properties": {
+        "role": {
+          "enum": [
+            "entity-manifest", "authority-policy", "tool-call-request", "approval", "revocation-set",
+            "decision", "evidence-bundle", "receipt", "verification-result", "key-metadata",
+            "key-rotation", "audit-event", "compatibility-profile"
+          ]
+        },
+        "schemaId": { "$ref": "#/$defs/SchemaId" },
+        "fixture": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/FixturePath" },
+        "fixtureDigest": { "$ref": "urn:fenrua:schema:shared-definitions-v1#/$defs/Digest" }
+      },
+      "allOf": [
+        {
+          "oneOf": [
+            { "properties": { "role": { "const": "entity-manifest" }, "schemaId": { "const": "urn:fenrua:schema:entity-manifest-v1" } } },
+            { "properties": { "role": { "const": "authority-policy" }, "schemaId": { "const": "urn:fenrua:schema:authority-policy-v1" } } },
+            { "properties": { "role": { "const": "authority-policy" }, "schemaId": { "const": "urn:fenrua:schema:authority-policy-v2" } } },
+            { "properties": { "role": { "const": "tool-call-request" }, "schemaId": { "const": "urn:fenrua:schema:tool-call-request-v1" } } },
+            { "properties": { "role": { "const": "approval" }, "schemaId": { "const": "urn:fenrua:schema:approval-v1" } } },
+            { "properties": { "role": { "const": "revocation-set" }, "schemaId": { "const": "urn:fenrua:schema:revocation-set-v1" } } },
+            { "properties": { "role": { "const": "decision" }, "schemaId": { "const": "urn:fenrua:schema:decision-v1" } } },
+            { "properties": { "role": { "const": "evidence-bundle" }, "schemaId": { "const": "urn:fenrua:schema:evidence-bundle-v1" } } },
+            { "properties": { "role": { "const": "evidence-bundle" }, "schemaId": { "const": "urn:fenrua:schema:evidence-bundle-v2" } } },
+            { "properties": { "role": { "const": "receipt" }, "schemaId": { "const": "urn:fenrua:schema:receipt-v1" } } },
+            { "properties": { "role": { "const": "verification-result" }, "schemaId": { "const": "urn:fenrua:schema:verification-result-v1" } } },
+            { "properties": { "role": { "const": "key-metadata" }, "schemaId": { "const": "urn:fenrua:schema:key-metadata-v1" } } },
+            { "properties": { "role": { "const": "key-rotation" }, "schemaId": { "const": "urn:fenrua:schema:key-rotation-v1" } } },
+            { "properties": { "role": { "const": "audit-event" }, "schemaId": { "const": "urn:fenrua:schema:audit-event-v1" } } },
+            { "properties": { "role": { "const": "compatibility-profile" }, "schemaId": { "const": "urn:fenrua:schema:compatibility-profile-v1" } } },
+            { "properties": { "role": { "const": "compatibility-profile" }, "schemaId": { "const": "urn:fenrua:schema:compatibility-profile-v2" } } }
+          ]
+        }
+      ]
+    }
+  }
+}
