@@ -12,6 +12,7 @@ const expectedVersions = [
   "fenrua.revocation-set.v1",
   "fenrua.decision.v1",
   "fenrua.evidence-bundle.v1",
+  "fenrua.evidence-bundle.v2",
   "fenrua.receipt.v1",
   "fenrua.verification-result.v1",
   "fenrua.key-metadata.v1",
@@ -31,7 +32,7 @@ assert.equal(registry.maturity, "R1-specification");
 assert.equal(registry.releaseState, "no-trust-gate-or-sdk-release");
 assert.equal(registry.schemaDialect, "https://json-schema.org/draft/2020-12/schema");
 assert.equal(registry.immutability.mutationAllowed, false);
-assert.equal(registry.schemas.length, expectedVersions.length, "Registry must contain exactly 15 top-level entries");
+assert.equal(registry.schemas.length, expectedVersions.length, "Registry must contain exactly 16 top-level entries");
 assert.deepEqual([...schemas.keys()].sort(), [...expectedVersions].sort(), "Registry schema versions differ from the v0.2 set");
 assert.equal(new Set(registry.schemas.map((entry) => entry.$id)).size, expectedVersions.length, "Schema $ids must be unique");
 assert.equal(new Set(registry.schemas.map((entry) => entry.path)).size, expectedVersions.length, "Schema paths must be unique");
@@ -56,6 +57,8 @@ for (const entry of registry.schemas) {
 
 const authorityPolicyV1 = schemas.get("fenrua.authority-policy.v1").schema;
 const authorityPolicyV2 = schemas.get("fenrua.authority-policy.v2").schema;
+const evidenceBundleV1 = schemas.get("fenrua.evidence-bundle.v1").schema;
+const evidenceBundleV2 = schemas.get("fenrua.evidence-bundle.v2").schema;
 const v1Rule = authorityPolicyV1.$defs.Rule;
 const v2Rule = authorityPolicyV2.$defs.Rule;
 assert.equal(Object.hasOwn(v1Rule.properties, "contextSelector"), false, "Authority Policy v1 must remain selector-free");
@@ -73,6 +76,28 @@ assert.equal(sharedContext.additionalProperties, false, "Shared Context must rem
 assert.deepEqual(sharedContext.required, ["contextId", "audience", "bindings"], "Shared Context must require its complete shape");
 assert.equal(sharedContext.properties.bindings.minItems, 1, "Shared Context bindings must be non-empty");
 assert.equal(sharedContext.properties.bindings.maxItems, 32, "Shared Context bindings must remain bounded");
+
+const frozenSchemaIds = sharedDefinitions.$defs.SchemaId.enum;
+assert.equal(
+  frozenSchemaIds.includes("urn:fenrua:schema:authority-policy-v2"),
+  false,
+  "Frozen Evidence Bundle v1 document references must not learn Authority Policy v2"
+);
+assert.equal(
+  evidenceBundleV1.properties.inputs.items.$ref,
+  "urn:fenrua:schema:shared-definitions-v1#/$defs/DocumentRef",
+  "Evidence Bundle v1 must retain frozen document references"
+);
+assert.equal(
+  evidenceBundleV2.properties.inputs.items.$ref,
+  "#/$defs/DocumentRef",
+  "Evidence Bundle v2 must use its additive document-reference vocabulary"
+);
+assert.deepEqual(
+  evidenceBundleV2.$defs.SchemaId.enum,
+  [...frozenSchemaIds, "urn:fenrua:schema:authority-policy-v2", "urn:fenrua:schema:evidence-bundle-v2"],
+  "Evidence Bundle v2 must permit only its bounded provenance schema set"
+);
 
 const vectorEntry = registry.schemas.find((entry) => entry.schemaVersion === "fenrua.verification-vector.v1");
 assert.equal(vectorEntry.role, "test-only-non-output", "Verification vectors must remain test-only");

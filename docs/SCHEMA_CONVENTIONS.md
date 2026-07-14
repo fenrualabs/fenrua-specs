@@ -58,10 +58,20 @@ Trust Gate implementation. This repository does not imply that an evaluator,
 signature verifier, or cryptographic profile has been released. Vector
 `fixtureDigest` values bind raw fixture source bytes only.
 
+## Local v2 evidence provenance
+
+`fenrua.evidence-bundle.v2` retains the closed Evidence Bundle structure but
+owns a new bounded `DocumentRef` vocabulary. It permits all frozen v1 schema
+IDs plus `fenrua.authority-policy.v2` and `fenrua.evidence-bundle.v2`; it does
+not widen the shared v1 `SchemaId` definition. This lets a v2 evidence bundle
+bind contextual-policy provenance while an Evidence Bundle v1 remains
+immutable and unable to name v2 documents.
+
 ## Roles
 
-`fenrua.tool-call-request.v1` is an input. `fenrua.decision.v1` and
-`fenrua.evidence-bundle.v1` are evaluator outputs. A
+`fenrua.tool-call-request.v1` is an input. `fenrua.decision.v1`,
+`fenrua.evidence-bundle.v1`, and `fenrua.evidence-bundle.v2` are evaluator
+outputs. A
 `fenrua.verification-result.v1` is independently generated verifier output.
 `fenrua.verification-vector.v1` is test-only metadata. These roles are not
 interchangeable even when individual fields look similar.
